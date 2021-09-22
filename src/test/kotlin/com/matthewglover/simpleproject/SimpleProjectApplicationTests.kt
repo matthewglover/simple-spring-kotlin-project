@@ -6,8 +6,8 @@ import org.springframework.boot.test.context.SpringBootTest
 @SpringBootTest
 class SimpleProjectApplicationTests {
 
-	@Test
-	fun contextLoads() {
-	}
-
+    @Test
+    @Suppress("EmptyFunctionBlock")
+    fun contextLoads() {
+    }
 }
