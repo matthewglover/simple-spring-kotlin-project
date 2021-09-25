@@ -20,15 +20,19 @@ To run the tasks individually:
 
 `./gradlew ktlintCheck` - runs ktlint formatting checks
 
-`./gradlew ktlintFormat` - run tklint auto-formatting
+`./gradlew ktlintFormat` - run ktlint auto-formatting
 
 ## Dependency Management
 
 The project uses the following dependency management tools:
 
 1. [Gradle Versions Plugin](https://github.com/ben-manes/gradle-versions-plugin) - for managing version upgrades
+2. [Dependency Check Plugin](https://jeremylong.github.io/DependencyCheck/dependency-check-gradle/index.html) - for
+   checking for dependencies against OWASP vulnerabilities database
 
-To run version plugin:
+To run tasks:
 
-`./gradlew dependencyUpdates` - runs a check for updates to current specified versions
+`./gradlew dependencyUpdates` - checks for updates to current specified versions
+
+`./gradlew dependencyCheckAnalyze` - checks dependencies for vulnerabilities
 

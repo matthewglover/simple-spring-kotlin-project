@@ -17,6 +17,7 @@ plugins {
 
     // Dependency versions
     id("com.github.ben-manes.versions")
+    id("org.owasp.dependencycheck")
 }
 
 group = "com.matthewglover"

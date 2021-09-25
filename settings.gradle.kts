@@ -8,6 +8,7 @@ pluginManagement {
         val detektVersion: String by settings
         val ktlintVersion: String by settings
         val dependencyVersionsVersion: String by settings
+        val dependencyCheckVersion: String by settings
 
         // Spring
         id("org.springframework.boot") version springBootVersion
@@ -22,5 +23,6 @@ pluginManagement {
 
         // Dependency versions
         id("com.github.ben-manes.versions") version dependencyVersionsVersion
+        id("org.owasp.dependencycheck") version dependencyCheckVersion
     }
 }
