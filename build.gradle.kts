@@ -4,16 +4,16 @@ import org.jlleitschuh.gradle.ktlint.reporter.ReporterType.PLAIN
 
 plugins {
     // Spring
-    id("org.springframework.boot") version "2.5.4"
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("org.springframework.boot")
+    id("io.spring.dependency-management")
 
     // Kotlin
-    kotlin("jvm") version "1.5.21"
-    kotlin("plugin.spring") version "1.5.21"
+    kotlin("jvm")
+    kotlin("plugin.spring")
 
     // Static Analysis
-    id("io.gitlab.arturbosch.detekt") version "1.18.1"
-    id("org.jlleitschuh.gradle.ktlint") version "10.2.0"
+    id("io.gitlab.arturbosch.detekt")
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
 group = "com.matthewglover"
