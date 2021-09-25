@@ -24,17 +24,28 @@ repositories {
 }
 
 val springBootVersion: String by project
+val detektVersion: String by project
 
 dependencies {
+    // BOM config
     implementation(enforcedPlatform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
+
+    // Spring
     implementation("org.springframework.boot:spring-boot-starter-webflux")
+
+    // Kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+
+    // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
+
+    // Plugin configuration
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
 }
 
 tasks.withType<KotlinCompile> {
@@ -46,10 +57,6 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
-}
-
-dependencies {
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.18.1")
 }
 
 ktlint {
