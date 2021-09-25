@@ -22,3 +22,13 @@ To run the tasks individually:
 
 `./gradlew ktlintFormat` - run tklint auto-formatting
 
+## Dependency Management
+
+The project uses the following dependency management tools:
+
+1. [Gradle Versions Plugin](https://github.com/ben-manes/gradle-versions-plugin) - for managing version upgrades
+
+To run version plugin:
+
+`./gradlew dependencyUpdates` - runs a check for updates to current specified versions
+
