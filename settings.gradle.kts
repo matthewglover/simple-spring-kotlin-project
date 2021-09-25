@@ -7,6 +7,7 @@ pluginManagement {
         val kotlinVersion: String by settings
         val detektVersion: String by settings
         val ktlintVersion: String by settings
+        val dependencyVersionsVersion: String by settings
 
         // Spring
         id("org.springframework.boot") version springBootVersion
@@ -18,5 +19,8 @@ pluginManagement {
         // Static Analysis
         id("io.gitlab.arturbosch.detekt") version detektVersion
         id("org.jlleitschuh.gradle.ktlint") version ktlintVersion
+
+        // Dependency versions
+        id("com.github.ben-manes.versions") version dependencyVersionsVersion
     }
 }

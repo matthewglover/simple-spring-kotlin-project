@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType.HTML
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType.PLAIN
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 plugins {
     // Spring
@@ -13,6 +14,9 @@ plugins {
     // Static Analysis
     id("io.gitlab.arturbosch.detekt")
     id("org.jlleitschuh.gradle.ktlint")
+
+    // Dependency versions
+    id("com.github.ben-manes.versions")
 }
 
 group = "com.matthewglover"
@@ -59,6 +63,7 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
+// KtLint config
 ktlint {
     reporters {
         reporter(PLAIN)
@@ -66,6 +71,7 @@ ktlint {
     }
 }
 
+// Detekt config
 detekt {
     reports {
         xml {
@@ -78,5 +84,20 @@ detekt {
             enabled = true
             destination = file("build/reports/detekt/detekt.html")
         }
+    }
+}
+
+// Dependency versions config
+fun isNonStable(version: String): Boolean {
+    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
+    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+    val isStable = stableKeyword || regex.matches(version)
+    return isStable.not()
+}
+
+tasks.withType<DependencyUpdatesTask> {
+    gradleReleaseChannel = "current"
+    rejectVersionIf {
+        isNonStable(candidate.version)
     }
 }
