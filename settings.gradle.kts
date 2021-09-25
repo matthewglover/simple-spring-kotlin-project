@@ -4,14 +4,12 @@ pluginManagement {
 
     plugins {
         val springBootVersion: String by settings
-        val springBootDependencyManagementVersion: String by settings
         val kotlinVersion: String by settings
         val detektVersion: String by settings
         val ktlintVersion: String by settings
 
         // Spring
         id("org.springframework.boot") version springBootVersion
-        id("io.spring.dependency-management") version springBootDependencyManagementVersion
 
         // Kotlin
         kotlin("jvm") version kotlinVersion

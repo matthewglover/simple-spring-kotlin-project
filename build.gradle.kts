@@ -5,7 +5,6 @@ import org.jlleitschuh.gradle.ktlint.reporter.ReporterType.PLAIN
 plugins {
     // Spring
     id("org.springframework.boot")
-    id("io.spring.dependency-management")
 
     // Kotlin
     kotlin("jvm")
@@ -24,7 +23,10 @@ repositories {
     mavenCentral()
 }
 
+val springBootVersion: String by project
+
 dependencies {
+    implementation(enforcedPlatform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
