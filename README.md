@@ -2,8 +2,8 @@
 
 ## What
 
-A very simple Spring Boot application built using Gradle, Kotlin, Co-routines and Reactor, demonstrating basic configuration, setup and 
-testing.
+A very simple Spring Boot application built using Gradle, Kotlin, Co-routines and Reactor, demonstrating basic
+configuration, setup and testing.
 
 ## Static Analysis
 
