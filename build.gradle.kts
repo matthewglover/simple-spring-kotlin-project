@@ -1,7 +1,7 @@
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType.HTML
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType.PLAIN
-import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 plugins {
     // Spring
