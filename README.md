@@ -36,3 +36,18 @@ To run tasks:
 
 `./gradlew dependencyCheckAnalyze` - checks dependencies for vulnerabilities
 
+
+## Building and running a containerised image
+
+`./gradlew bootBuildImage --imageName=<image-name>:<image-tag>` - builds a containerised image.
+
+`docker run -it -p 8090:8080 <image-name>:<image-tag>` - runs containerised image on port 8090
+
+## Pushing a containerised image to ECR
+
+1. Create ECR repository name of docker image: `aws ecr create-repository --repository-name <image-name>`
+2. Tag the image with ECR repository uri: `docker image tag <image-name>:<image-tag> <ecr-repository-uri>:<image-tag>` 
+3. Login to ECR - `aws ecr get-login-password --region <ecr-region> | docker login --username AWS --password-stdin <ecr-repository-uri>`
+4. Push the image to ECR: `docker image push <ecr-repository-uri>:<image-tag>`
+
+See [here](./Containerising.md) for a full example of building and pushing an image to ECR
