@@ -50,4 +50,4 @@ To run tasks:
 3. Login to ECR - `aws ecr get-login-password --region <ecr-region> | docker login --username AWS --password-stdin <ecr-repository-uri>`
 4. Push the image to ECR: `docker image push <ecr-repository-uri>:<image-tag>`
 
-See [here](./Containerising.md) for a full example of building and pushing an image to ECR
+See [here](docs/Containerising.md) for a full example of building and pushing an image to ECR
