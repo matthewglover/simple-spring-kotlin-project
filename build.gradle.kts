@@ -29,6 +29,7 @@ repositories {
 }
 
 val springBootVersion: String by project
+val springDocOpenApiVersion: String by project
 val detektVersion: String by project
 
 dependencies {
@@ -45,6 +46,10 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+
+    // Open API
+    implementation("org.springdoc:springdoc-openapi-webflux-ui:$springDocOpenApiVersion")
+    implementation("org.springdoc:springdoc-openapi-kotlin:$springDocOpenApiVersion")
 
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
