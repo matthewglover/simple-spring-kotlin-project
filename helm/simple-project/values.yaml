@@ -1,0 +1,4 @@
+appName: "simple-app"
+imageName: "simple-project"
+imageTag: "0.0.5"
+containerPort: 8080

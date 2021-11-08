@@ -51,3 +51,7 @@ To run tasks:
 4. Push the image to ECR: `docker image push <ecr-repository-uri>:<image-tag>`
 
 See [here](docs/Containerising.md) for a full example of building and pushing an image to ECR
+
+## Running in Kubernetes
+
+See [here](docs/Local_Kubernetes.md) for how to set up and run local Kubernetes cluster.
