@@ -11,7 +11,7 @@ class GreetIntegrationTest {
     fun `a valid request returns a valid greeting response`() {
         val webClient = WebTestClient
             .bindToRouterFunction(RouteConfig().greetRoute())
-            .build();
+            .build()
 
         webClient
             .get().uri("/greet")

@@ -8,7 +8,10 @@ import org.springdoc.core.annotations.RouterOperation
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
-import org.springframework.web.reactive.function.server.*
+import org.springframework.web.reactive.function.server.ServerRequest
+import org.springframework.web.reactive.function.server.ServerResponse
+import org.springframework.web.reactive.function.server.bodyValueAndAwait
+import org.springframework.web.reactive.function.server.coRouter
 
 @Configuration
 class RouteConfig {
@@ -22,15 +25,16 @@ class RouteConfig {
                 ApiResponse(
                     responseCode = "200",
                     description = "greet person",
-                    content = [Content(schema = Schema(implementation = Greeting::class))])
+                    content = [Content(schema = Schema(implementation = Greeting::class))]
+                )
             ]
         ),
     )
-    fun greetRoute(): RouterFunction<ServerResponse> =
-        coRouter {
-            GET("/greet", ::handleGreet)
-        }
+    fun greetRoute() = coRouter {
+        GET("/greet", ::handleGreet)
+    }
 
+    @Suppress("UnusedPrivateMember")
     suspend fun handleGreet(request: ServerRequest): ServerResponse =
         ServerResponse.ok()
             .contentType(MediaType.APPLICATION_JSON)
