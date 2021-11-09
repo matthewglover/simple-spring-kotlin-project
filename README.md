@@ -36,6 +36,23 @@ To run tasks:
 
 `./gradlew dependencyCheckAnalyze` - checks dependencies for vulnerabilities
 
+## Testing
+
+The project contains multiple test sources:
+
+- `handlerTest`: for testing routing and handler logic in isolation
+- `test`: for unit testing
+
+Each test source can be run in isolation with command: `./gradlew <test-souce>`, e.g. `./gradlew test`
+or `./gradlew handlerTest`
+
+## Check task
+
+The check task is configured to run:
+
+- Detekt
+- KtLint
+- All test sources (`test`, `handlerTest`)
 
 ## Building and running a containerised image
 
@@ -46,8 +63,9 @@ To run tasks:
 ## Pushing a containerised image to ECR
 
 1. Create ECR repository name of docker image: `aws ecr create-repository --repository-name <image-name>`
-2. Tag the image with ECR repository uri: `docker image tag <image-name>:<image-tag> <ecr-repository-uri>:<image-tag>` 
-3. Login to ECR - `aws ecr get-login-password --region <ecr-region> | docker login --username AWS --password-stdin <ecr-repository-uri>`
+2. Tag the image with ECR repository uri: `docker image tag <image-name>:<image-tag> <ecr-repository-uri>:<image-tag>`
+3. Login to ECR
+   - `aws ecr get-login-password --region <ecr-region> | docker login --username AWS --password-stdin <ecr-repository-uri>`
 4. Push the image to ECR: `docker image push <ecr-repository-uri>:<image-tag>`
 
 See [here](docs/Containerising.md) for a full example of building and pushing an image to ECR
