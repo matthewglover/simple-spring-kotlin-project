@@ -28,6 +28,33 @@ repositories {
     mavenCentral()
 }
 
+// Configure handlerTest
+// See https://docs.gradle.org/current/userguide/java_testing.html#sec:configuring_java_integration_tests
+
+sourceSets {
+    create("handlerTest") {
+        compileClasspath += sourceSets.main.get().output
+        runtimeClasspath += sourceSets.main.get().output
+    }
+}
+
+val handlerTestImplementation by configurations.getting {
+    extendsFrom(configurations.testImplementation.get())
+}
+
+configurations["handlerTestImplementation"].extendsFrom(configurations.runtimeOnly.get())
+
+val handlerTest = task<Test>("handlerTest") {
+    description = "Runs handler tests."
+    group = "verification"
+
+    testClassesDirs = sourceSets["handlerTest"].output.classesDirs
+    classpath = sourceSets["handlerTest"].runtimeClasspath
+    shouldRunAfter("test")
+}
+
+tasks.check { dependsOn(handlerTest) }
+
 val springBootVersion: String by project
 val springDocOpenApiVersion: String by project
 val detektVersion: String by project
