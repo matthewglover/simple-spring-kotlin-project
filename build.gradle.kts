@@ -61,7 +61,9 @@ dependencies {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
+        // NOTE: unrestricted-builder-inference flag will be default in kotlin 1.6
+        // See: https://kotlinlang.org/docs/whatsnew1530.html#eliminating-builder-inference-restrictions
+        freeCompilerArgs = listOf("-Xjsr305=strict", "-Xself-upper-bound-inference")
         jvmTarget = "11"
     }
 }
