@@ -58,14 +58,20 @@ tasks.check { dependsOn(handlerTest) }
 val springBootVersion: String by project
 val springDocOpenApiVersion: String by project
 val detektVersion: String by project
+val arrowVersion: String by project
+val mockkVersion: String by project
+val snodgeVersion: String by project
+val glassfishVersion: String by project
 
 dependencies {
     // BOM config
     implementation(enforcedPlatform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
+    implementation(platform("io.arrow-kt:arrow-stack:$arrowVersion"))
 
     // Spring
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
 
     // Kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -73,6 +79,9 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+
+    // Utility libraries
+    implementation("io.arrow-kt:arrow-core")
 
     // Open API
     implementation("org.springdoc:springdoc-openapi-webflux-ui:$springDocOpenApiVersion")
@@ -85,7 +94,9 @@ dependencies {
     }
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-    testImplementation("io.mockk:mockk:1.12.0")
+    testImplementation("io.mockk:mockk:$mockkVersion")
+    testImplementation("com.natpryce:snodge:$snodgeVersion")
+    testRuntimeOnly("org.glassfish:javax.json:$glassfishVersion")
 
     // Plugin configuration
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")

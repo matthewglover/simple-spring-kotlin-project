@@ -16,7 +16,7 @@ class UserServiceTest {
 
         val userService = UserService(userRepository)
 
-        assertEquals(User("valid-user-id"), userService.findByUserId("valid-user-id"))
+        assertEquals(User("valid-user-id"), userService.getUser("valid-user-id"))
     }
 
     @Test
@@ -26,6 +26,6 @@ class UserServiceTest {
 
         val userService = UserService(userRepository)
 
-        assertNull(userService.findByUserId("invalid-user-id"))
+        assertNull(userService.getUser("invalid-user-id"))
     }
 }

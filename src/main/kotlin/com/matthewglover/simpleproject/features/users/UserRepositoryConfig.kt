@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration
 class UserRepositoryConfig {
 
     @Bean
-    fun userList(): List<User> = listOf(
+    fun userList(): MutableList<User> = mutableListOf(
         User("1234"),
         User("abcd")
     )

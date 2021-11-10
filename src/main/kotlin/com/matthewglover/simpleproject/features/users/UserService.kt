@@ -4,7 +4,11 @@ import org.springframework.stereotype.Service
 
 @Service
 class UserService(private val userRepository: UserRepository) {
-    suspend fun findByUserId(userId: String): User? {
+    suspend fun getUser(userId: String): User? {
         return userRepository.findUserById(userId)
+    }
+
+    suspend fun addUser(newUser: RefinedNewUser): User {
+        return userRepository.addUser(newUser)
     }
 }
