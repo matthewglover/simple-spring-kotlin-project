@@ -1,5 +1,6 @@
 package com.matthewglover.simpleproject.features.users
 
+import com.matthewglover.simpleproject.utils.MockRouteUtils
 import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.slot
@@ -40,8 +41,9 @@ class GetUserRouteHandlerTest {
     }
 
     private fun setupWebClient(userService: UserService): WebTestClient {
+        val routeUtils = MockRouteUtils()
         val userHandlers = UserHandlers(userService)
-        val getUserRoute = UserRouteConfig().getUserRoute(userHandlers)
+        val getUserRoute = UserRouteConfig().getUserRoute(routeUtils, userHandlers)
 
         return WebTestClient
             .bindToRouterFunction(getUserRoute)

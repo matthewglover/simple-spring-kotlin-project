@@ -1,5 +1,6 @@
 package com.matthewglover.simpleproject.features.greet
 
+import com.matthewglover.simpleproject.common.routeutils.RouteUtils
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
@@ -11,10 +12,9 @@ import org.springframework.http.MediaType
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.bodyValueAndAwait
-import org.springframework.web.reactive.function.server.coRouter
 
 @Configuration
-class RouteConfig {
+class GreetRouteConfig {
 
     @Bean
     @RouterOperation(
@@ -30,7 +30,7 @@ class RouteConfig {
             ]
         ),
     )
-    fun greetRoute() = coRouter {
+    fun greetRoute(routeUtils: RouteUtils) = routeUtils.coRouter {
         GET("/greet", ::handleGreet)
     }
 

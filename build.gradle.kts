@@ -62,6 +62,7 @@ val arrowVersion: String by project
 val mockkVersion: String by project
 val snodgeVersion: String by project
 val glassfishVersion: String by project
+val kotlinImmutableCollectionVersion: String by project
 
 dependencies {
     // BOM config
@@ -72,6 +73,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-log4j2")
 
     // Kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -79,6 +81,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:$kotlinImmutableCollectionVersion")
 
     // Utility libraries
     implementation("io.arrow-kt:arrow-core")
@@ -152,4 +155,12 @@ tasks.withType<DependencyUpdatesTask> {
     rejectVersionIf {
         isNonStable(candidate.version)
     }
+}
+
+configurations.all {
+    //   spring-boot-starter-logging module causes a conflict with spring-boot-starter-log4j2
+    //   As spring-boot-starter-logging is included by multiple dependencies:
+    //   spring-boot-starter-webflux, spring-boot-starter-actuator, spring-boot-starter-validation
+    //   we globally exclude it here, rather than in each dependency
+    exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
 }

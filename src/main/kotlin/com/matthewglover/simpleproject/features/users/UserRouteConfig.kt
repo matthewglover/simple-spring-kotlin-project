@@ -1,5 +1,6 @@
 package com.matthewglover.simpleproject.features.users
 
+import com.matthewglover.simpleproject.common.routeutils.RouteUtils
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -7,7 +8,6 @@ import org.springdoc.core.annotations.RouterOperation
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
-import org.springframework.web.reactive.function.server.coRouter
 
 @Configuration
 class UserRouteConfig {
@@ -32,7 +32,7 @@ class UserRouteConfig {
             ]
         ),
     )
-    fun getUserRoute(userHandlers: UserHandlers) = coRouter {
+    fun getUserRoute(routeUtils: RouteUtils, userHandlers: UserHandlers) = routeUtils.coRouter {
         GET("/users/{userId}", userHandlers::handleGetUser)
     }
 
@@ -51,7 +51,7 @@ class UserRouteConfig {
             ]
         ),
     )
-    fun addUserRoute(userHandlers: UserHandlers) = coRouter {
+    fun addUserRoute(routeUtils: RouteUtils, userHandlers: UserHandlers) = routeUtils.coRouter {
         accept(MediaType.APPLICATION_JSON).nest {
             POST("/users", userHandlers::handleAddUser)
         }

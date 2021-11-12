@@ -1,6 +1,7 @@
 package com.matthewglover.simpleproject.features.users
 
 import com.matthewglover.simpleproject.common.errormappers.ErrorResponse
+import com.matthewglover.simpleproject.utils.MockRouteUtils
 import io.mockk.coEvery
 import io.mockk.mockk
 import org.junit.jupiter.api.Test
@@ -68,8 +69,9 @@ class AddUserRouteHandlerTest {
     data class InvalidPayload(val property: String)
 
     private fun setupWebClient(userService: UserService): WebTestClient {
+        val routeUtils = MockRouteUtils()
         val userHandlers = UserHandlers(userService)
-        val addUserRoute = UserRouteConfig().addUserRoute(userHandlers)
+        val addUserRoute = UserRouteConfig().addUserRoute(routeUtils, userHandlers)
 
         return WebTestClient
             .bindToRouterFunction(addUserRoute)
