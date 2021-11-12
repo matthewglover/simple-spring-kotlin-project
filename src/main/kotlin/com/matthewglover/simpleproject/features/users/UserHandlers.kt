@@ -1,7 +1,8 @@
 package com.matthewglover.simpleproject.features.users
 
-import arrow.core.flatMap
+import arrow.core.computations.either
 import com.matthewglover.simpleproject.common.errormappers.RequestDataParsingErrorResponseMapper
+import com.matthewglover.simpleproject.common.errors.RequestDataParsingError
 import com.matthewglover.simpleproject.common.requestinput.RequestInputParser
 import com.matthewglover.simpleproject.common.requestinput.RequestInputRefiner
 import org.springframework.http.MediaType
@@ -32,8 +33,11 @@ class UserHandlers(private val userService: UserService) {
     }
 
     suspend fun handleAddUser(request: ServerRequest): ServerResponse {
-        val newUser = RequestInputParser.parseBody<NewUser>(request)
-        val refinedNewUser = newUser.flatMap { RequestInputRefiner.refine(it) }
+        val refinedNewUser = either<RequestDataParsingError, RefinedNewUser> {
+            val newUser = RequestInputParser.parseBody<NewUser>(request).bind()
+
+            RequestInputRefiner.refine(newUser).bind()
+        }
 
         return refinedNewUser.fold(
             { RequestDataParsingErrorResponseMapper.map(it) },
