@@ -9,7 +9,7 @@ contract {
     }
     response {
         status = OK
-        body = body("message" to "Hello, world!")
+        body = body(file("greeting.json"))
         headers {
             contentType = "application/json"
         }

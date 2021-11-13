@@ -3,6 +3,7 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType.HTML
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType.PLAIN
+import org.jlleitschuh.gradle.ktlint.tasks.KtLintCheckTask
 import org.springframework.cloud.contract.verifier.config.TestFramework
 import org.springframework.cloud.contract.verifier.config.TestMode
 
@@ -142,6 +143,14 @@ ktlint {
         reporter(PLAIN)
         reporter(HTML)
     }
+    filter {
+        exclude("**/generated/**")
+        exclude("**/generated-test-sources/**")
+    }
+}
+
+tasks.withType<KtLintCheckTask>() {
+    mustRunAfter("generateContractTests")
 }
 
 // Detekt config
@@ -186,7 +195,7 @@ configurations.all {
 contracts {
     testFramework.set(TestFramework.JUNIT5)
     testMode.set(TestMode.WEBTESTCLIENT)
-    packageWithBaseClasses.set("com.matthewglover.simpleproject.contracts")
+    packageWithBaseClasses.set("com.matthewglover.simpleproject")
 }
 
 tasks {
