@@ -1,11 +1,16 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType.HTML
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType.PLAIN
+import org.springframework.cloud.contract.verifier.config.TestFramework
+import org.springframework.cloud.contract.verifier.config.TestMode
+
 
 plugins {
     // Spring
     id("org.springframework.boot")
+    id("org.springframework.cloud.contract")
 
     // Kotlin
     kotlin("jvm")
@@ -18,6 +23,9 @@ plugins {
     // Dependency versions
     id("com.github.ben-manes.versions")
     id("org.owasp.dependencycheck")
+
+    // Publish
+    id("maven-publish")
 }
 
 group = "com.matthewglover"
@@ -26,6 +34,9 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
     mavenCentral()
+    maven { url = uri("https://repo.spring.io/release") }
+    maven { url = uri("https://repo.spring.io/milestone") }
+    maven { url = uri("https://repo.spring.io/snapshot") }
 }
 
 // Configure handlerTest
@@ -63,10 +74,13 @@ val mockkVersion: String by project
 val snodgeVersion: String by project
 val glassfishVersion: String by project
 val kotlinImmutableCollectionVersion: String by project
+val springCloudDependenciesVersion: String by project
+val restAssuredVersion: String by project
 
 dependencies {
     // BOM config
     implementation(enforcedPlatform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
+    implementation(enforcedPlatform("org.springframework.cloud:spring-cloud-dependencies:$springCloudDependenciesVersion"))
     implementation(platform("io.arrow-kt:arrow-stack:$arrowVersion"))
 
     // Spring
@@ -100,6 +114,10 @@ dependencies {
     testImplementation("io.mockk:mockk:$mockkVersion")
     testImplementation("com.natpryce:snodge:$snodgeVersion")
     testRuntimeOnly("org.glassfish:javax.json:$glassfishVersion")
+    testImplementation("org.springframework.cloud:spring-cloud-starter-contract-verifier")
+    testImplementation("org.springframework.cloud:spring-cloud-contract-spec-kotlin")
+    testImplementation(kotlin("script-runtime"))
+    testImplementation("io.rest-assured:spring-web-test-client:$restAssuredVersion")
 
     // Plugin configuration
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
@@ -163,4 +181,41 @@ configurations.all {
     //   spring-boot-starter-webflux, spring-boot-starter-actuator, spring-boot-starter-validation
     //   we globally exclude it here, rather than in each dependency
     exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
+}
+
+contracts {
+    testFramework.set(TestFramework.JUNIT5)
+    testMode.set(TestMode.WEBTESTCLIENT)
+    packageWithBaseClasses.set("com.matthewglover.simpleproject.contracts")
+}
+
+tasks {
+    contractTest {
+        useJUnitPlatform()
+        systemProperty("spring.profiles.active", "gradle")
+        testLogging {
+            exceptionFormat = TestExceptionFormat.FULL
+        }
+        afterSuite(
+            KotlinClosure2({ desc: TestDescriptor, result: TestResult ->
+                if (desc.parent == null) {
+                    if (result.testCount == 0L) {
+                        throw IllegalStateException("No tests were found. Failing the build")
+                    } else {
+                        println("Results: (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)")
+                    }
+                } else { /* Nothing to do here */ }
+            })
+        )
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            artifact(tasks.named("bootJar"))
+
+            artifact(tasks.named("verifierStubsJar"))
+        }
+    }
 }
