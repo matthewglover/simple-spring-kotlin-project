@@ -12,4 +12,3 @@ open class GreetBase {
         RestAssuredWebTestClient.standaloneSetup(greetRoute)
     }
 }
-

@@ -71,10 +71,10 @@ class AddUserRouteHandlerTest {
     private fun setupWebClient(userService: UserService): WebTestClient {
         val routeUtils = MockRouteUtils()
         val userHandlers = UserHandlers(userService)
-        val addUserRoute = UserRouteConfig().addUserRoute(routeUtils, userHandlers)
+        val userRoutes = UserRouteConfig().userRoutes(routeUtils, userHandlers)
 
         return WebTestClient
-            .bindToRouterFunction(addUserRoute)
+            .bindToRouterFunction(userRoutes)
             .build()
     }
 }
