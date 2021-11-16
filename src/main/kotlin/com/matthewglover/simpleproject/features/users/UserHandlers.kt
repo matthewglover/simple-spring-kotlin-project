@@ -39,9 +39,11 @@ class UserHandlers(private val userService: UserService) {
             RequestInputRefiner.refine(newUser).bind()
         }
 
-        return refinedNewUser.fold(
-            { RequestDataParsingErrorResponseMapper.map(it) },
-            { okResponse(userService.addUser(it)) }
-        )
+        return refinedNewUser
+            .map { userService.addUser(it) }
+            .fold(
+                { RequestDataParsingErrorResponseMapper.map(it) },
+                { okResponse(it) }
+            )
     }
 }
