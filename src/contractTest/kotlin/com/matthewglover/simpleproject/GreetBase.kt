@@ -8,7 +8,7 @@ open class GreetBase {
 
     @BeforeEach
     fun setup() {
-        val greetRoute = GreetRouteConfig().greetRoute(MockRouteUtils())
+        val greetRoute = GreetRouteConfig().greetRoute(TestRouteUtils.routeUtils())
         RestAssuredWebTestClient.standaloneSetup(greetRoute)
     }
 }

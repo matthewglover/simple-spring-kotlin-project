@@ -1,5 +1,6 @@
 package com.matthewglover.simpleproject.common.routeutils
 
+import com.matthewglover.simpleproject.common.errormappers.ExceptionHandling
 import com.matthewglover.simpleproject.common.logging.RequestLoggingContextCreator
 import com.matthewglover.simpleproject.common.logging.RequestResponseLogging
 import org.springframework.stereotype.Component
@@ -21,6 +22,7 @@ class RouteUtilsImpl(
         org.springframework.web.reactive.function.server.coRouter {
             routes()
 
+            filter(ExceptionHandling::applyToRoutes)
             filter(requestLoggingContextCreator::writeRequestLoggingContext)
             filter(requestResponseLogging::filter)
         }

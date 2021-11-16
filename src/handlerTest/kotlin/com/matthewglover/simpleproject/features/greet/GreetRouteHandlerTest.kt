@@ -6,10 +6,10 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.expectBody
 
-class GreetRouteHandlerTest {
+internal class GreetRouteHandlerTest {
 
     @Test
-    fun `a valid request returns a valid greeting response`() {
+    internal fun `a valid request returns a valid greeting response`() {
         val routeUtils = MockRouteUtils()
 
         val webClient = WebTestClient

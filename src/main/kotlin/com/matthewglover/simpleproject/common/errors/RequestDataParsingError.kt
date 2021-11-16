@@ -2,7 +2,7 @@ package com.matthewglover.simpleproject.common.errors
 
 import org.springframework.core.codec.DecodingException
 
-sealed interface RequestDataParsingError
+sealed interface RequestDataParsingError : ApplicationErrors
 
 data class JsonDecodingError(val decodingException: DecodingException) : RequestDataParsingError
 

@@ -13,5 +13,12 @@ contract {
     }
     response {
         status = UNSUPPORTED_MEDIA_TYPE
+        headers {
+            contentType = "application/json"
+        }
+        body = body("errorType" to "UnsupportedMediaTypeStatusException")
+        bodyMatchers {
+            jsonPath("$.errors[0]", byRegex("Content type: `text/plain.*` not supported."))
+        }
     }
 }

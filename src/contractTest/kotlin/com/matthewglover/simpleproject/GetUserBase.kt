@@ -17,7 +17,7 @@ open class GetUserBase {
         configureGetUserStubs(userService)
 
         val userHandlers = UserHandlers(userService)
-        val userRoutes = UserRouteConfig().userRoutes(MockRouteUtils(), userHandlers)
+        val userRoutes = UserRouteConfig().userRoutes(TestRouteUtils.routeUtils(), userHandlers)
 
         RestAssuredWebTestClient.standaloneSetup(userRoutes)
     }
