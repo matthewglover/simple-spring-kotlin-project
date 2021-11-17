@@ -1,5 +1,12 @@
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+
 plugins {
+    // Dependency version management
     `java-platform`
+
+    // Dependency versions
+    id("com.github.ben-manes.versions")
+    id("org.owasp.dependencycheck")
 }
 
 group = "com.matthewglover"
@@ -48,3 +55,20 @@ dependencies {
     api(enforcedPlatform("org.springframework.cloud:spring-cloud-dependencies:$springCloudDependenciesVersion"))
     api(platform("io.arrow-kt:arrow-stack:$arrowVersion"))
 }
+
+// Dependency versions config
+fun isNonStable(version: String): Boolean {
+    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
+    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+    val isStable = stableKeyword || regex.matches(version)
+    return isStable.not()
+}
+
+tasks.withType<DependencyUpdatesTask> {
+    gradleReleaseChannel = "current"
+    rejectVersionIf {
+        isNonStable(candidate.version)
+    }
+
+}
+

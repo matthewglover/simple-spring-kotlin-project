@@ -1,4 +1,3 @@
-import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType.HTML
@@ -20,10 +19,6 @@ plugins {
     // Static Analysis
     id("io.gitlab.arturbosch.detekt")
     id("org.jlleitschuh.gradle.ktlint")
-
-    // Dependency versions
-    id("com.github.ben-manes.versions")
-    id("org.owasp.dependencycheck")
 
     // Publish
     id("maven-publish")
@@ -156,21 +151,6 @@ detekt {
             enabled = true
             destination = file("build/reports/detekt/detekt.html")
         }
-    }
-}
-
-// Dependency versions config
-fun isNonStable(version: String): Boolean {
-    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
-    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
-    val isStable = stableKeyword || regex.matches(version)
-    return isStable.not()
-}
-
-tasks.withType<DependencyUpdatesTask> {
-    gradleReleaseChannel = "current"
-    rejectVersionIf {
-        isNonStable(candidate.version)
     }
 }
 
