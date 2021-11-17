@@ -67,22 +67,12 @@ val handlerTest = task<Test>("handlerTest") {
 
 tasks.check { dependsOn(handlerTest) }
 
-val springBootVersion: String by project
-val springDocOpenApiVersion: String by project
 val detektVersion: String by project
-val arrowVersion: String by project
-val mockkVersion: String by project
-val snodgeVersion: String by project
-val glassfishVersion: String by project
-val kotlinImmutableCollectionVersion: String by project
-val springCloudDependenciesVersion: String by project
-val restAssuredVersion: String by project
 
 dependencies {
-    // BOM config
-    implementation(enforcedPlatform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
-    implementation(enforcedPlatform("org.springframework.cloud:spring-cloud-dependencies:$springCloudDependenciesVersion"))
-    implementation(platform("io.arrow-kt:arrow-stack:$arrowVersion"))
+    // Root project for dependency version management
+    api(enforcedPlatform(rootProject))
+    api(enforcedPlatform(kotlin("bom")))
 
     // Spring
     implementation("org.springframework.boot:spring-boot-starter-webflux")
@@ -96,14 +86,14 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:$kotlinImmutableCollectionVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable")
 
     // Utility libraries
     implementation("io.arrow-kt:arrow-core")
 
     // Open API
-    implementation("org.springdoc:springdoc-openapi-webflux-ui:$springDocOpenApiVersion")
-    implementation("org.springdoc:springdoc-openapi-kotlin:$springDocOpenApiVersion")
+    implementation("org.springdoc:springdoc-openapi-webflux-ui")
+    implementation("org.springdoc:springdoc-openapi-kotlin")
 
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
@@ -112,13 +102,13 @@ dependencies {
     }
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-    testImplementation("io.mockk:mockk:$mockkVersion")
-    testImplementation("com.natpryce:snodge:$snodgeVersion")
-    testRuntimeOnly("org.glassfish:javax.json:$glassfishVersion")
+    testImplementation("io.mockk:mockk")
+    testImplementation("com.natpryce:snodge")
+    testRuntimeOnly("org.glassfish:javax.json")
     testImplementation("org.springframework.cloud:spring-cloud-starter-contract-verifier")
     testImplementation("org.springframework.cloud:spring-cloud-contract-spec-kotlin")
     testImplementation(kotlin("script-runtime"))
-    testImplementation("io.rest-assured:spring-web-test-client:$restAssuredVersion")
+    testImplementation("io.rest-assured:spring-web-test-client")
 
     // Plugin configuration
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
