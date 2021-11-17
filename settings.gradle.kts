@@ -1,5 +1,7 @@
 rootProject.name = "simple-project"
 
+include("api")
+
 pluginManagement {
     repositories {
         mavenCentral()
