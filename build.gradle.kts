@@ -23,18 +23,18 @@ javaPlatform {
     allowDependencies()
 }
 
-val springBootVersion: String by project
-val springDocOpenApiVersion: String by project
-val detektVersion: String by project
-val arrowVersion: String by project
-val mockkVersion: String by project
-val snodgeVersion: String by project
-val glassfishVersion: String by project
-val kotlinImmutableCollectionVersion: String by project
-val springCloudDependenciesVersion: String by project
-val restAssuredVersion: String by project
-
 dependencies {
+
+    val springBootVersion: String by project
+    val springDocOpenApiVersion: String by project
+    val arrowVersion: String by project
+    val mockkVersion: String by project
+    val snodgeVersion: String by project
+    val glassfishVersion: String by project
+    val kotlinImmutableCollectionVersion: String by project
+    val springCloudDependenciesVersion: String by project
+    val restAssuredVersion: String by project
+
     constraints {
         // Kotlin
         api("org.jetbrains.kotlinx:kotlinx-collections-immutable:$kotlinImmutableCollectionVersion")
