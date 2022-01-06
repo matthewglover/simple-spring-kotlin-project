@@ -6,6 +6,8 @@
 2. Docker
 3. AWS user with sufficient permissions, including `ACCESS_KEY_ID` and `SECRET_ACCESS_KEY`
 
+## Containerising steps
+
 ```shell
 ## Configure AWS CLI with user
 export AWS_ACCESS_KEY_ID="<AWS_ACCESS_KEY_ID>"
