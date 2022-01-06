@@ -4,6 +4,9 @@ import org.springframework.core.codec.DecodingException
 
 sealed interface RequestDataParsingError : ApplicationErrors
 
+object MissingRequestPayloadError : RequestDataParsingError {
+    const val message: String = "No payload in request"
+}
 data class JsonDecodingError(val decodingException: DecodingException) : RequestDataParsingError
 
 sealed interface RefiningError : RequestDataParsingError

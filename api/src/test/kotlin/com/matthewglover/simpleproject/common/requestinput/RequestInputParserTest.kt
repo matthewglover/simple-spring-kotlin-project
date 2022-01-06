@@ -5,6 +5,7 @@ import com.matthewglover.simpleproject.features.users.NewUser
 import com.natpryce.snodge.json.defaultJsonMutagens
 import com.natpryce.snodge.json.forStrings
 import com.natpryce.snodge.mutants
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -27,6 +28,7 @@ internal class RequestInputParserTest {
         fun provideJsonFuzz(): Stream<Arguments> {
             val random = Random.Default
             val validJson = objectMapper.writeValueAsString(NewUser("blah"))
+
             return random.mutants(defaultJsonMutagens().forStrings(), 100, validJson)
                 .map { Arguments.of(it) }
                 .stream()
@@ -62,6 +64,17 @@ internal class RequestInputParserTest {
             .post().uri("/test")
             .contentType(MediaType.APPLICATION_JSON)
             .bodyValue(json)
+            .exchange()
+            .expectStatus().isOk
+    }
+
+    @Test
+    internal fun `does not error for a missing payload`() {
+        val testClient = setupWebClient<NewUser>()
+
+        testClient
+            .post().uri("/test")
+            .contentType(MediaType.APPLICATION_JSON)
             .exchange()
             .expectStatus().isOk
     }

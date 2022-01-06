@@ -1,6 +1,7 @@
 package com.matthewglover.simpleproject.common.errormappers
 
 import com.matthewglover.simpleproject.common.errors.JsonDecodingError
+import com.matthewglover.simpleproject.common.errors.MissingRequestPayloadError
 import com.matthewglover.simpleproject.common.errors.RequestDataParsingError
 import com.matthewglover.simpleproject.common.errors.UnexpectedRefiningError
 import com.matthewglover.simpleproject.common.errors.ValidationErrors
@@ -13,10 +14,20 @@ import org.springframework.web.reactive.function.server.bodyValueAndAwait
 object RequestDataParsingErrorResponseMapper {
     suspend fun map(error: RequestDataParsingError): ServerResponse =
         when (error) {
+            is MissingRequestPayloadError -> missingRequestPayloadError()
             is JsonDecodingError -> decodingErrorResponse(error)
             is ValidationErrors -> validationErrorResponse(error)
             is UnexpectedRefiningError -> refiningErrorResponse(error)
         }
+
+    private suspend fun missingRequestPayloadError(): ServerResponse {
+        val errorResponse = ErrorResponse(
+            errorType = MissingRequestPayloadError.javaClass.simpleName,
+            errors = setOf(MissingRequestPayloadError.message)
+        )
+
+        return badRequestResponse(errorResponse)
+    }
 
     private suspend fun decodingErrorResponse(error: JsonDecodingError): ServerResponse {
         val errorResponse =
