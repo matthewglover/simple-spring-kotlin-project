@@ -52,7 +52,7 @@ class UserRouteConfig {
                     summary = "Add a new user",
                     method = "POST",
                     requestBody = RequestBody(
-                        content = [Content(schema = Schema(implementation = RefinedNewUser::class))]
+                        content = [Content(schema = Schema(implementation = NewUser::class))]
                     ),
                     responses = [
                         ApiResponse(

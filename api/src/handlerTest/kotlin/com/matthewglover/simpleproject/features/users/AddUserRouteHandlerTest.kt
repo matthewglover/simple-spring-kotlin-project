@@ -1,6 +1,6 @@
 package com.matthewglover.simpleproject.features.users
 
-import com.matthewglover.simpleproject.common.errormappers.ErrorResponse
+import com.matthewglover.simpleproject.common.errors.util.ErrorResponse
 import com.matthewglover.simpleproject.utils.MockRouteUtils
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -15,7 +15,7 @@ class AddUserRouteHandlerTest {
     @Test
     fun `a valid user payload returns a newly created user`() {
         val userService = mockk<UserService>()
-        val newUser = RefinedNewUser("test@test.com")
+        val newUser = NewUser("test@test.com")
         coEvery { userService.addUser(newUser) } answers { User("new-user-id") }
 
         val webClient = setupWebClient(userService)

@@ -1,6 +1,6 @@
 package com.matthewglover.simpleproject
 
-import com.matthewglover.simpleproject.features.users.RefinedNewUser
+import com.matthewglover.simpleproject.features.users.NewUser
 import com.matthewglover.simpleproject.features.users.User
 import com.matthewglover.simpleproject.features.users.UserHandlers
 import com.matthewglover.simpleproject.features.users.UserRouteConfig
@@ -25,6 +25,6 @@ open class AddUserBase {
     }
 
     private fun configureGetUserStubs(userService: UserService) {
-        coEvery { userService.addUser(RefinedNewUser(username = "valid-user-name")) } returns User("new-user-id")
+        coEvery { userService.addUser(NewUser(username = "valid-user-name")) } returns User("new-user-id")
     }
 }

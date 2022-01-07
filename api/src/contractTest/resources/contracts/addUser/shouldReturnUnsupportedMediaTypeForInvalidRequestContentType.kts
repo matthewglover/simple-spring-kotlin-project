@@ -16,7 +16,7 @@ contract {
         headers {
             contentType = "application/json"
         }
-        body = body("errorType" to "UnsupportedMediaTypeStatusException")
+        body = body("errorType" to "UnsupportedMediaTypeError")
         bodyMatchers {
             jsonPath("$.errors[0]", byRegex("Content type: `text/plain.*` not supported."))
         }

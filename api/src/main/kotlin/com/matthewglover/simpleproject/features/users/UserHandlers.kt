@@ -1,10 +1,9 @@
 package com.matthewglover.simpleproject.features.users
 
 import arrow.core.computations.either
-import com.matthewglover.simpleproject.common.errormappers.RequestDataParsingErrorResponseMapper
 import com.matthewglover.simpleproject.common.errors.RequestDataParsingError
-import com.matthewglover.simpleproject.common.requestinput.RequestInputParser
-import com.matthewglover.simpleproject.common.requestinput.RequestInputRefiner
+import com.matthewglover.simpleproject.common.requestinput.RequestDataParsingErrorResponseMapper
+import com.matthewglover.simpleproject.common.requestinput.RequestInput
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.ServerRequest
@@ -33,17 +32,16 @@ class UserHandlers(private val userService: UserService) {
     }
 
     suspend fun handleAddUser(request: ServerRequest): ServerResponse {
-        val refinedNewUser = either<RequestDataParsingError, RefinedNewUser> {
-            val newUser = RequestInputParser.parseBody<NewUser>(request).bind()
+        val result = either<RequestDataParsingError, User> {
+            val newUser = RequestInput.parseAndValidate<RawNewUser, NewUser>(request).bind()
 
-            RequestInputRefiner.refine(newUser).bind()
+            userService.addUser(newUser)
         }
 
-        return refinedNewUser
-            .map { userService.addUser(it) }
+        return result
             .fold(
-                { RequestDataParsingErrorResponseMapper.map(it) },
-                { okResponse(it) }
+                { error -> RequestDataParsingErrorResponseMapper.map(error) },
+                { user -> okResponse(user) }
             )
     }
 }

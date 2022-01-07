@@ -1,5 +1,6 @@
 package com.matthewglover.simpleproject.common.logging
 
+import com.matthewglover.simpleproject.common.routeutils.RequestResponseLogging
 import com.matthewglover.simpleproject.utils.MockHandlerUtils
 import io.mockk.Runs
 import io.mockk.coEvery

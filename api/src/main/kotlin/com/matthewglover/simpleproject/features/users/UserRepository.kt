@@ -9,7 +9,7 @@ class UserRepository(private val users: MutableList<User>) {
         users.find { it.userId == userId }
 
     @Suppress("UnusedPrivateMember")
-    suspend fun addUser(newUser: RefinedNewUser): User {
+    suspend fun addUser(newUser: NewUser): User {
         val user = User("new-user-id")
         users.add(user)
 

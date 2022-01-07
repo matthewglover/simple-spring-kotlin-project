@@ -10,21 +10,21 @@ import org.junit.jupiter.api.Test
 internal class NewUserTest {
 
     @Test
-    internal fun `refine returns Right of RefinedNewUser for valid unrefined NewUser`() {
-        val newUser = NewUser("blah")
+    internal fun `refine returns RefinedNewUser for valid unrefined NewUser`() {
+        val rawNewUser = RawNewUser("blah")
 
-        val actual = newUser.refine()
+        val actual = rawNewUser.refine()
 
         assertTrue(actual.isRight())
 
-        actual.tap { assertEquals(RefinedNewUser("blah"), it) }
+        actual.tap { assertEquals(NewUser("blah"), it) }
     }
 
     @Test
     internal fun `refine returns Left of ValidationError for invalid unrefined NewUser`() {
-        val newUser = NewUser(null)
+        val rawNewUser = RawNewUser(null)
 
-        val actual = newUser.refine()
+        val actual = rawNewUser.refine()
 
         assertTrue(actual.isLeft())
 

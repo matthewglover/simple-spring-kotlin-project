@@ -8,7 +8,7 @@ class UserService(private val userRepository: UserRepository) {
         return userRepository.findUserById(userId)
     }
 
-    suspend fun addUser(newUser: RefinedNewUser): User {
+    suspend fun addUser(newUser: NewUser): User {
         return userRepository.addUser(newUser)
     }
 }
