@@ -23,8 +23,8 @@ class UserRouteConfig {
             RouterOperation(
                 path = "/users/{userId}",
                 method = [RequestMethod.GET],
-                beanClass = UserService::class,
-                beanMethod = "getUser",
+                beanClass = UserHandlers::class,
+                beanMethod = "handleGetUser",
                 operation = Operation(
                     operationId = "get-user",
                     summary = "Get a user by userId",

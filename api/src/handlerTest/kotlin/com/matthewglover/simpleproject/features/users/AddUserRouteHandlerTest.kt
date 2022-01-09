@@ -1,6 +1,6 @@
 package com.matthewglover.simpleproject.features.users
 
-import com.matthewglover.simpleproject.common.errors.util.ErrorResponse
+import com.matthewglover.simpleproject.common.response.ErrorResponse
 import com.matthewglover.simpleproject.utils.MockRouteUtils
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -14,11 +14,11 @@ class AddUserRouteHandlerTest {
 
     @Test
     fun `a valid user payload returns a newly created user`() {
-        val userService = mockk<UserService>()
+        val userRepository = mockk<UserRepository>()
         val newUser = NewUser("test@test.com")
-        coEvery { userService.addUser(newUser) } answers { User("new-user-id") }
+        coEvery { userRepository.addUser(newUser) } answers { User("new-user-id") }
 
-        val webClient = setupWebClient(userService)
+        val webClient = setupWebClient(userRepository)
 
         webClient
             .post().uri("/users")
@@ -31,9 +31,9 @@ class AddUserRouteHandlerTest {
 
     @Test
     fun `a malformed json payload returns a Bad Request`() {
-        val userService = mockk<UserService>()
+        val userRepository = mockk<UserRepository>()
 
-        val webClient = setupWebClient(userService)
+        val webClient = setupWebClient(userRepository)
 
         webClient
             .post().uri("/users")
@@ -48,9 +48,9 @@ class AddUserRouteHandlerTest {
 
     @Test
     fun `an invalid user payload returns a Bad Request`() {
-        val userService = mockk<UserService>()
+        val userRepository = mockk<UserRepository>()
 
-        val webClient = setupWebClient(userService)
+        val webClient = setupWebClient(userRepository)
 
         webClient
             .post().uri("/users")
@@ -68,9 +68,9 @@ class AddUserRouteHandlerTest {
 
     data class InvalidPayload(val property: String)
 
-    private fun setupWebClient(userService: UserService): WebTestClient {
+    private fun setupWebClient(userRepository: UserRepository): WebTestClient {
         val routeUtils = MockRouteUtils()
-        val userHandlers = UserHandlers(userService)
+        val userHandlers = UserHandlers(userRepository)
         val userRoutes = UserRouteConfig().userRoutes(routeUtils, userHandlers)
 
         return WebTestClient

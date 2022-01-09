@@ -13,11 +13,11 @@ class GetUserRouteHandlerTest {
 
     @Test
     fun `a valid userId returns a valid user`() {
-        val userService = mockk<UserService>()
+        val userRepository = mockk<UserRepository>()
         val userIdSlot = slot<String>()
-        coEvery { userService.getUser(capture(userIdSlot)) } answers { User(userIdSlot.captured) }
+        coEvery { userRepository.findUserById(capture(userIdSlot)) } answers { User(userIdSlot.captured) }
 
-        val webClient = setupWebClient(userService)
+        val webClient = setupWebClient(userRepository)
 
         webClient
             .get().uri("/users/1234")
@@ -29,10 +29,10 @@ class GetUserRouteHandlerTest {
 
     @Test
     fun `an invalid userId returns not found`() {
-        val userService = mockk<UserService>()
-        coEvery { userService.getUser(any()) } answers { null }
+        val userRepository = mockk<UserRepository>()
+        coEvery { userRepository.findUserById(any()) } answers { null }
 
-        val webClient = setupWebClient(userService)
+        val webClient = setupWebClient(userRepository)
 
         webClient
             .get().uri("/users/1234")
@@ -40,9 +40,9 @@ class GetUserRouteHandlerTest {
             .expectStatus().isNotFound
     }
 
-    private fun setupWebClient(userService: UserService): WebTestClient {
+    private fun setupWebClient(userRepository: UserRepository): WebTestClient {
         val routeUtils = MockRouteUtils()
-        val userHandlers = UserHandlers(userService)
+        val userHandlers = UserHandlers(userRepository)
         val userRoutes = UserRouteConfig().userRoutes(routeUtils, userHandlers)
 
         return WebTestClient

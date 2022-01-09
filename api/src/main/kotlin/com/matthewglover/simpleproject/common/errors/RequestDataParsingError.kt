@@ -3,7 +3,7 @@ package com.matthewglover.simpleproject.common.errors
 import org.springframework.core.codec.DecodingException
 import org.springframework.web.server.UnsupportedMediaTypeStatusException
 
-sealed interface RequestDataParsingError : ApplicationErrors {
+sealed interface RequestDataParsingError : ApplicationError {
     val message: String
 }
 
@@ -24,10 +24,13 @@ data class UnexpectedRequestDataParsingError(val cause: Throwable) : RequestData
 }
 
 sealed interface RefiningError : RequestDataParsingError
+
 data class ValidationErrors(val errors: Set<ValidationError>) : RefiningError {
     override val message: String = "Validation errors: ${messages().joinToString(", ")}"
 }
+
 fun ValidationErrors.messages(): Set<String> = errors.map { it.message }.toSet()
+
 data class ValidationError(val message: String)
 
 data class UnexpectedRefiningError(val cause: Throwable) : RefiningError {

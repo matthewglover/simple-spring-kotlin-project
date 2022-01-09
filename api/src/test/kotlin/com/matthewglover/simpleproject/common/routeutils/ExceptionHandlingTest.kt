@@ -1,6 +1,6 @@
 package com.matthewglover.simpleproject.common.routeutils
 
-import com.matthewglover.simpleproject.common.errors.util.ErrorResponse
+import com.matthewglover.simpleproject.common.response.ErrorResponse
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType

@@ -1,3 +1,3 @@
 package com.matthewglover.simpleproject.common.errors
 
-sealed interface ApplicationErrors
+sealed interface ApplicationError

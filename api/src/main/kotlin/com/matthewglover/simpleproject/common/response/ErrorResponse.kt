@@ -1,4 +1,4 @@
-package com.matthewglover.simpleproject.common.errors.util
+package com.matthewglover.simpleproject.common.response
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
