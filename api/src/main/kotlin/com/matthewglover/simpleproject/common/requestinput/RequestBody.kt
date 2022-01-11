@@ -20,7 +20,7 @@ import javax.validation.ConstraintViolation
 import javax.validation.Validation
 import javax.validation.Validator
 
-object RequestInput {
+object RequestBody {
 
     private val validator: Validator = Validation.buildDefaultValidatorFactory().validator
 

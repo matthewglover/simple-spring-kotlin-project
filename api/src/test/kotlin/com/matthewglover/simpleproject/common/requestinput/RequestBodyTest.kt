@@ -33,7 +33,7 @@ import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Pattern
 import kotlin.random.Random
 
-internal class RequestInputTest {
+internal class RequestBodyTest {
 
     data class RawType(
         @get: NotBlank(message = "username required")
@@ -161,7 +161,7 @@ internal class RequestInputTest {
             POST("/test") { request ->
                 @Suppress("SwallowedException")
                 try {
-                    val result = RequestInput.parseAndValidate<UnrefinedType, RefinedType>(request)
+                    val result = RequestBody.parseAndValidate<UnrefinedType, RefinedType>(request)
                     slot.captured = result
                     ServerResponse.ok().buildAndAwait()
                 } catch (throwable: Throwable) {
