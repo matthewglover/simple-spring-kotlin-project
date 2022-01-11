@@ -13,11 +13,10 @@ import org.springframework.web.reactive.function.server.ServerResponse
 object RequestDataParsingErrorResponseMapper {
 
     suspend fun map(error: RequestDataParsingError): ServerResponse = when (error) {
-        is MissingRequestPayloadError -> toErrorBody(MissingRequestPayloadError).asBadRequest()
         is UnsupportedMediaTypeError -> toErrorBody(error).asUnsupportedMedia()
-        is UnexpectedRequestDataParsingError -> toErrorBody(error).asInternalServerError()
         is ValidationErrors -> toErrorBody(error).asBadRequest()
-        is JsonDecodingError, is UnexpectedRefiningError -> toErrorBody(error).asBadRequest()
+        is JsonDecodingError, is MissingRequestPayloadError -> toErrorBody(error).asBadRequest()
+        is UnexpectedRequestDataParsingError, is UnexpectedRefiningError -> toErrorBody(error).asInternalServerError()
     }
 
     private fun toErrorBody(error: ValidationErrors) = ErrorResponse(
