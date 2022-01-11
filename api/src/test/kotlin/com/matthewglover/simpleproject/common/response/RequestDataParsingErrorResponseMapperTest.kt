@@ -1,6 +1,5 @@
 package com.matthewglover.simpleproject.common.response
 
-import com.matthewglover.simpleproject.common.errors.ApplicationError
 import com.matthewglover.simpleproject.common.errors.JsonDecodingError
 import com.matthewglover.simpleproject.common.errors.MissingRequestPayloadError
 import com.matthewglover.simpleproject.common.errors.UnexpectedRefiningError
@@ -12,9 +11,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.core.codec.DecodingException
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
-import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.expectBody
-import org.springframework.web.reactive.function.server.coRouter
 import org.springframework.web.server.UnsupportedMediaTypeStatusException
 
 internal class RequestDataParsingErrorResponseMapperTest {
@@ -114,24 +111,5 @@ internal class RequestDataParsingErrorResponseMapperTest {
                     errors = setOf("This is an unexpected refining error")
                 )
             )
-    }
-
-    private fun testError(error: ApplicationError): WebTestClient.ResponseSpec {
-        val webClient = setupWebClient(error)
-
-        return webClient
-            .get().uri("/test")
-            .exchange()
-    }
-
-    private fun setupWebClient(error: ApplicationError) =
-        WebTestClient
-            .bindToRouterFunction(testRoute(error))
-            .build()
-
-    private fun testRoute(error: ApplicationError) = coRouter {
-        accept(MediaType.APPLICATION_JSON).nest {
-            GET("/test") { error.asError() }
-        }
     }
 }
