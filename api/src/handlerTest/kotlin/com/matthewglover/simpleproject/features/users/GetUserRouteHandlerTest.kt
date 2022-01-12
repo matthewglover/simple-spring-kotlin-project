@@ -1,5 +1,8 @@
 package com.matthewglover.simpleproject.features.users
 
+import arrow.core.left
+import arrow.core.right
+import com.matthewglover.simpleproject.common.errors.UserNotFoundError
 import com.matthewglover.simpleproject.utils.MockRouteUtils
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -15,7 +18,7 @@ class GetUserRouteHandlerTest {
     fun `a valid userId returns a valid user`() {
         val userRepository = mockk<UserRepository>()
         val userIdSlot = slot<String>()
-        coEvery { userRepository.findUserById(capture(userIdSlot)) } answers { User(userIdSlot.captured) }
+        coEvery { userRepository.findUserById(capture(userIdSlot)) } answers { User(userIdSlot.captured).right() }
 
         val webClient = setupWebClient(userRepository)
 
@@ -30,7 +33,10 @@ class GetUserRouteHandlerTest {
     @Test
     fun `an invalid userId returns not found`() {
         val userRepository = mockk<UserRepository>()
-        coEvery { userRepository.findUserById(any()) } answers { null }
+        val userIdSlot = slot<String>()
+        coEvery { userRepository.findUserById(capture(userIdSlot)) } answers {
+            UserNotFoundError(userIdSlot.captured).left()
+        }
 
         val webClient = setupWebClient(userRepository)
 

@@ -1,5 +1,8 @@
 package com.matthewglover.simpleproject
 
+import arrow.core.left
+import arrow.core.right
+import com.matthewglover.simpleproject.common.errors.UserNotFoundError
 import com.matthewglover.simpleproject.features.users.User
 import com.matthewglover.simpleproject.features.users.UserHandlers
 import com.matthewglover.simpleproject.features.users.UserRepository
@@ -23,7 +26,7 @@ open class GetUserBase {
     }
 
     private fun configureGetUserStubs(userRepository: UserRepository) {
-        coEvery { userRepository.findUserById("valid-user-id") } returns User("valid-user-id")
-        coEvery { userRepository.findUserById("invalid-user-id") } returns null
+        coEvery { userRepository.findUserById("valid-user-id") } returns User("valid-user-id").right()
+        coEvery { userRepository.findUserById("invalid-user-id") } returns UserNotFoundError("invalid-user-id").left()
     }
 }
