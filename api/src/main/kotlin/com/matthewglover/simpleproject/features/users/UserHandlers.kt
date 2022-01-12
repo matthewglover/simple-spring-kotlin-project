@@ -1,11 +1,11 @@
 package com.matthewglover.simpleproject.features.users
 
 import arrow.core.computations.either
-import com.matthewglover.simpleproject.common.errors.ApplicationError
-import com.matthewglover.simpleproject.common.errors.RequestDataParsingError
 import com.matthewglover.simpleproject.common.requestinput.parseBody
 import com.matthewglover.simpleproject.common.requestinput.parsePathVariable
 import com.matthewglover.simpleproject.common.response.asOk
+import com.matthewglover.simpleproject.errors.ApplicationError
+import com.matthewglover.simpleproject.errors.RequestDataParsingError
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse

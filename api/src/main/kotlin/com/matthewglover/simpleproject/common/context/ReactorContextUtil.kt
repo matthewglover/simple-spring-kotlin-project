@@ -3,7 +3,7 @@ package com.matthewglover.simpleproject.common.context
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
-import com.matthewglover.simpleproject.common.errors.ReactorContextReadError
+import com.matthewglover.simpleproject.errors.ReactorContextReadError
 import kotlinx.coroutines.reactor.ReactorContext
 import kotlinx.coroutines.reactor.asCoroutineContext
 import reactor.util.context.Context

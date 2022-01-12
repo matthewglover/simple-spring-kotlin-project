@@ -1,4 +1,4 @@
-package com.matthewglover.simpleproject.common.errors
+package com.matthewglover.simpleproject.errors
 
 sealed interface UserRepositoryError : ApplicationError {
     val message: String

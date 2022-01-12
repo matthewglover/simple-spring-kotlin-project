@@ -1,15 +1,15 @@
 package com.matthewglover.simpleproject.common.response
 
-import com.matthewglover.simpleproject.common.errors.InvalidPathVariableNameError
-import com.matthewglover.simpleproject.common.errors.InvalidPathVariableValue
-import com.matthewglover.simpleproject.common.errors.JsonDecodingError
-import com.matthewglover.simpleproject.common.errors.MissingRequestPayloadError
-import com.matthewglover.simpleproject.common.errors.RequestDataParsingError
-import com.matthewglover.simpleproject.common.errors.UnexpectedRefiningError
-import com.matthewglover.simpleproject.common.errors.UnexpectedRequestDataParsingError
-import com.matthewglover.simpleproject.common.errors.UnsupportedMediaTypeError
-import com.matthewglover.simpleproject.common.errors.ValidationErrors
-import com.matthewglover.simpleproject.common.errors.messages
+import com.matthewglover.simpleproject.errors.InvalidPathVariableNameError
+import com.matthewglover.simpleproject.errors.InvalidPathVariableValue
+import com.matthewglover.simpleproject.errors.JsonDecodingError
+import com.matthewglover.simpleproject.errors.MissingRequestPayloadError
+import com.matthewglover.simpleproject.errors.RequestDataParsingError
+import com.matthewglover.simpleproject.errors.UnexpectedRefiningError
+import com.matthewglover.simpleproject.errors.UnexpectedRequestDataParsingError
+import com.matthewglover.simpleproject.errors.UnsupportedMediaTypeError
+import com.matthewglover.simpleproject.errors.ValidationErrors
+import com.matthewglover.simpleproject.errors.messages
 import org.springframework.web.reactive.function.server.ServerResponse
 
 suspend fun mapRequestDataParsingError(error: RequestDataParsingError): ServerResponse = when (error) {

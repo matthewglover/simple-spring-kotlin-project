@@ -1,8 +1,8 @@
 package com.matthewglover.simpleproject.common.response
 
-import com.matthewglover.simpleproject.common.errors.ContextError
-import com.matthewglover.simpleproject.common.errors.ReactorContextReadError
-import com.matthewglover.simpleproject.common.errors.RequestLoggingContextReadError
+import com.matthewglover.simpleproject.errors.ContextError
+import com.matthewglover.simpleproject.errors.ReactorContextReadError
+import com.matthewglover.simpleproject.errors.RequestLoggingContextReadError
 import org.springframework.web.reactive.function.server.ServerResponse
 
 suspend fun mapContextError(contextError: ContextError): ServerResponse = when (contextError) {

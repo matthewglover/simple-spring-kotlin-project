@@ -1,4 +1,4 @@
-package com.matthewglover.simpleproject.common.errors
+package com.matthewglover.simpleproject.errors
 
 import org.springframework.core.codec.DecodingException
 import org.springframework.web.server.UnsupportedMediaTypeStatusException

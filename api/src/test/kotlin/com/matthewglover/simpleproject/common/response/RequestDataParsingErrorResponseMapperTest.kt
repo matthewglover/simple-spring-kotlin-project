@@ -1,12 +1,12 @@
 package com.matthewglover.simpleproject.common.response
 
-import com.matthewglover.simpleproject.common.errors.JsonDecodingError
-import com.matthewglover.simpleproject.common.errors.MissingRequestPayloadError
-import com.matthewglover.simpleproject.common.errors.UnexpectedRefiningError
-import com.matthewglover.simpleproject.common.errors.UnexpectedRequestDataParsingError
-import com.matthewglover.simpleproject.common.errors.UnsupportedMediaTypeError
-import com.matthewglover.simpleproject.common.errors.ValidationError
-import com.matthewglover.simpleproject.common.errors.ValidationErrors
+import com.matthewglover.simpleproject.errors.JsonDecodingError
+import com.matthewglover.simpleproject.errors.MissingRequestPayloadError
+import com.matthewglover.simpleproject.errors.UnexpectedRefiningError
+import com.matthewglover.simpleproject.errors.UnexpectedRequestDataParsingError
+import com.matthewglover.simpleproject.errors.UnsupportedMediaTypeError
+import com.matthewglover.simpleproject.errors.ValidationError
+import com.matthewglover.simpleproject.errors.ValidationErrors
 import org.junit.jupiter.api.Test
 import org.springframework.core.codec.DecodingException
 import org.springframework.http.HttpStatus

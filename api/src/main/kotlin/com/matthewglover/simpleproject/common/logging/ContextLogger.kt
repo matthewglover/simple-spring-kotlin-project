@@ -3,7 +3,7 @@ package com.matthewglover.simpleproject.common.logging
 import arrow.core.Either
 import arrow.core.flatMap
 import com.matthewglover.simpleproject.common.context.ReactorContextUtil
-import com.matthewglover.simpleproject.common.errors.ContextError
+import com.matthewglover.simpleproject.errors.ContextError
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.message.StringMapMessage
 import org.apache.logging.log4j.util.MessageSupplier

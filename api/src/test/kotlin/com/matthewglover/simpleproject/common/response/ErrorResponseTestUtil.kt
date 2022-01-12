@@ -1,6 +1,6 @@
 package com.matthewglover.simpleproject.common.response
 
-import com.matthewglover.simpleproject.common.errors.ApplicationError
+import com.matthewglover.simpleproject.errors.ApplicationError
 import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.web.reactive.function.server.coRouter

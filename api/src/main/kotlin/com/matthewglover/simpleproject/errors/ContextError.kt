@@ -1,4 +1,4 @@
-package com.matthewglover.simpleproject.common.errors
+package com.matthewglover.simpleproject.errors
 
 sealed interface ContextError : ApplicationError {
     val message: String

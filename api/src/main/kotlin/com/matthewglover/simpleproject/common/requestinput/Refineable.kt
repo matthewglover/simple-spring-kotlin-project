@@ -1,7 +1,7 @@
 package com.matthewglover.simpleproject.common.requestinput
 
 import arrow.core.Either
-import com.matthewglover.simpleproject.common.errors.UnexpectedRefiningError
+import com.matthewglover.simpleproject.errors.UnexpectedRefiningError
 
 interface Refineable<RefinedType> {
     fun unsafeRefine(): RefinedType

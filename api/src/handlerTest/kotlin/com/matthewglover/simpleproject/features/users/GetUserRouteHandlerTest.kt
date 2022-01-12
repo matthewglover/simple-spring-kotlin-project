@@ -2,7 +2,7 @@ package com.matthewglover.simpleproject.features.users
 
 import arrow.core.left
 import arrow.core.right
-import com.matthewglover.simpleproject.common.errors.UserNotFoundError
+import com.matthewglover.simpleproject.errors.UserNotFoundError
 import com.matthewglover.simpleproject.utils.MockRouteUtils
 import io.mockk.coEvery
 import io.mockk.mockk

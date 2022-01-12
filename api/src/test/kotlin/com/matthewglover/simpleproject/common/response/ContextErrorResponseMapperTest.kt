@@ -1,7 +1,7 @@
 package com.matthewglover.simpleproject.common.response
 
-import com.matthewglover.simpleproject.common.errors.ReactorContextReadError
-import com.matthewglover.simpleproject.common.errors.RequestLoggingContextReadError
+import com.matthewglover.simpleproject.errors.ReactorContextReadError
+import com.matthewglover.simpleproject.errors.RequestLoggingContextReadError
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType

@@ -1,6 +1,6 @@
 package com.matthewglover.simpleproject.features.users
 
-import com.matthewglover.simpleproject.common.errors.UnexpectedRefiningError
+import com.matthewglover.simpleproject.errors.UnexpectedRefiningError
 import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals

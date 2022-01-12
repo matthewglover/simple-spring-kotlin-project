@@ -5,7 +5,7 @@ import arrow.core.getOrElse
 import arrow.core.left
 import arrow.core.right
 import com.matthewglover.simpleproject.common.context.ReactorContextUtil
-import com.matthewglover.simpleproject.common.errors.RequestLoggingContextReadError
+import com.matthewglover.simpleproject.errors.RequestLoggingContextReadError
 import kotlinx.coroutines.withContext
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.ServerRequest

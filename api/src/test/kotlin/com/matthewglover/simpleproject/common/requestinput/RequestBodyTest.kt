@@ -4,11 +4,11 @@ import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.matthewglover.simpleproject.common.errors.JsonDecodingError
-import com.matthewglover.simpleproject.common.errors.MissingRequestPayloadError
-import com.matthewglover.simpleproject.common.errors.RequestDataParsingError
-import com.matthewglover.simpleproject.common.errors.ValidationError
-import com.matthewglover.simpleproject.common.errors.ValidationErrors
+import com.matthewglover.simpleproject.errors.JsonDecodingError
+import com.matthewglover.simpleproject.errors.MissingRequestPayloadError
+import com.matthewglover.simpleproject.errors.RequestDataParsingError
+import com.matthewglover.simpleproject.errors.ValidationError
+import com.matthewglover.simpleproject.errors.ValidationErrors
 import com.natpryce.snodge.json.defaultJsonMutagens
 import com.natpryce.snodge.json.forStrings
 import com.natpryce.snodge.mutants

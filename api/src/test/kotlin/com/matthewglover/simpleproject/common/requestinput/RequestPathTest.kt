@@ -3,9 +3,9 @@ package com.matthewglover.simpleproject.common.requestinput
 
 import arrow.core.Either
 import arrow.core.right
-import com.matthewglover.simpleproject.common.errors.InvalidPathVariableNameError
-import com.matthewglover.simpleproject.common.errors.InvalidPathVariableValue
-import com.matthewglover.simpleproject.common.errors.RequestDataParsingError
+import com.matthewglover.simpleproject.errors.InvalidPathVariableNameError
+import com.matthewglover.simpleproject.errors.InvalidPathVariableValue
+import com.matthewglover.simpleproject.errors.RequestDataParsingError
 import io.mockk.slot
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertInstanceOf

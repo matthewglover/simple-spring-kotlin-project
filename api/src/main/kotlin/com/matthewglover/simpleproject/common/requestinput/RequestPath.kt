@@ -2,9 +2,9 @@ package com.matthewglover.simpleproject.common.requestinput
 
 import arrow.core.Either
 import arrow.core.flatMap
-import com.matthewglover.simpleproject.common.errors.InvalidPathVariableNameError
-import com.matthewglover.simpleproject.common.errors.InvalidPathVariableValue
-import com.matthewglover.simpleproject.common.errors.RequestDataParsingError
+import com.matthewglover.simpleproject.errors.InvalidPathVariableNameError
+import com.matthewglover.simpleproject.errors.InvalidPathVariableValue
+import com.matthewglover.simpleproject.errors.RequestDataParsingError
 import org.springframework.web.reactive.function.server.ServerRequest
 
 fun ServerRequest.parsePathVariable(pathVariableName: String): Either<RequestDataParsingError, String> =

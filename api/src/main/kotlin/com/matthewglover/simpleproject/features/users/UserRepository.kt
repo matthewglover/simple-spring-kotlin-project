@@ -3,8 +3,8 @@ package com.matthewglover.simpleproject.features.users
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
-import com.matthewglover.simpleproject.common.errors.UserNotFoundError
-import com.matthewglover.simpleproject.common.errors.UserRepositoryError
+import com.matthewglover.simpleproject.errors.UserNotFoundError
+import com.matthewglover.simpleproject.errors.UserRepositoryError
 import org.springframework.stereotype.Repository
 
 @Repository
