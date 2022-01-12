@@ -20,56 +20,52 @@ import javax.validation.ConstraintViolation
 import javax.validation.Validation
 import javax.validation.Validator
 
-object RequestBody {
+private val validator: Validator = Validation.buildDefaultValidatorFactory().validator
 
-    private val validator: Validator = Validation.buildDefaultValidatorFactory().validator
-
-    suspend inline fun <reified RawType : Refineable<RefinedType>, reified RefinedType> parseAndValidate(
-        request: ServerRequest
-    ) = either<RequestDataParsingError, RefinedType> {
-        val rawValue = parseBody<RawType>(request).bind()
+suspend inline fun <reified RawType : Refineable<RefinedType>, reified RefinedType> ServerRequest.parseBody() =
+    either<RequestDataParsingError, RefinedType> {
+        val rawValue = deserializeBody<RawType>(this@parseBody).bind()
 
         val validated = validate(rawValue).bind()
 
         validated.refine().bind()
     }
 
-    suspend inline fun <reified RawType : Any> parseBody(
-        request: ServerRequest
-    ): Either<RequestDataParsingError, RawType> =
-        Either.catch { request.awaitBody<RawType>() }
-            .mapLeft(::handleThrowable)
+suspend inline fun <reified RawType : Any> deserializeBody(
+    request: ServerRequest
+): Either<RequestDataParsingError, RawType> =
+    Either.catch { request.awaitBody<RawType>() }
+        .mapLeft(::handleThrowable)
 
-    fun handleThrowable(throwable: Throwable): RequestDataParsingError = when (throwable) {
-        is ServerWebInputException -> jsonDecodingException(throwable)
-        is NoSuchElementException -> MissingRequestPayloadError
-        is UnsupportedMediaTypeStatusException -> UnsupportedMediaTypeError(throwable)
-        else -> UnexpectedRequestDataParsingError(throwable)
+fun handleThrowable(throwable: Throwable): RequestDataParsingError = when (throwable) {
+    is ServerWebInputException -> jsonDecodingException(throwable)
+    is NoSuchElementException -> MissingRequestPayloadError
+    is UnsupportedMediaTypeStatusException -> UnsupportedMediaTypeError(throwable)
+    else -> UnexpectedRequestDataParsingError(throwable)
+}
+
+private fun jsonDecodingException(exception: ServerWebInputException): RequestDataParsingError =
+    when (val cause = exception.cause) {
+        is DecodingException -> JsonDecodingError(cause)
+        else -> UnexpectedRequestDataParsingError(exception)
     }
 
-    private fun jsonDecodingException(exception: ServerWebInputException): RequestDataParsingError =
-        when (val cause = exception.cause) {
-            is DecodingException -> JsonDecodingError(cause)
-            else -> UnexpectedRequestDataParsingError(exception)
-        }
+fun <T> validate(t: T): Either<ValidationErrors, T> {
+    val constraintViolations = validator.validate(t)
 
-    fun <T> validate(t: T): Either<ValidationErrors, T> {
-        val constraintViolations = validator.validate(t)
-
-        return if (constraintViolations.isNotEmpty()) {
-            toValidationErrors(constraintViolations).left()
-        } else {
-            t.right()
-        }
+    return if (constraintViolations.isNotEmpty()) {
+        toValidationErrors(constraintViolations).left()
+    } else {
+        t.right()
     }
+}
 
-    private fun <T> toValidationErrors(
-        constraintViolations: Set<ConstraintViolation<T>>
-    ): ValidationErrors {
-        val errors = constraintViolations
-            .map { constraintViolation -> ValidationError(constraintViolation.message) }
-            .toSet()
+private fun <T> toValidationErrors(
+    constraintViolations: Set<ConstraintViolation<T>>
+): ValidationErrors {
+    val errors = constraintViolations
+        .map { constraintViolation -> ValidationError(constraintViolation.message) }
+        .toSet()
 
-        return ValidationErrors(errors)
-    }
+    return ValidationErrors(errors)
 }

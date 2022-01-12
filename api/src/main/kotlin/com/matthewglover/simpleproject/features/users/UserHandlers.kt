@@ -3,7 +3,7 @@ package com.matthewglover.simpleproject.features.users
 import arrow.core.computations.either
 import com.matthewglover.simpleproject.common.errors.ApplicationError
 import com.matthewglover.simpleproject.common.errors.RequestDataParsingError
-import com.matthewglover.simpleproject.common.requestinput.RequestBody
+import com.matthewglover.simpleproject.common.requestinput.parseBody
 import com.matthewglover.simpleproject.common.requestinput.parsePathVariable
 import com.matthewglover.simpleproject.common.response.asOk
 import org.springframework.stereotype.Component
@@ -20,7 +20,7 @@ class UserHandlers(private val userRepository: UserRepository) {
     }.asOk()
 
     suspend fun handleAddUser(request: ServerRequest): ServerResponse = either<RequestDataParsingError, User> {
-        val newUser = RequestBody.parseAndValidate<RawNewUser, NewUser>(request).bind()
+        val newUser = request.parseBody<RawNewUser, NewUser>().bind()
 
         userRepository.addUser(newUser)
     }.asOk()

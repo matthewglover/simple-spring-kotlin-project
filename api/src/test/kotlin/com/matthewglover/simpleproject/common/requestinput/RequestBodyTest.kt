@@ -161,7 +161,7 @@ internal class RequestBodyTest {
             POST("/test") { request ->
                 @Suppress("SwallowedException")
                 try {
-                    val result = RequestBody.parseAndValidate<UnrefinedType, RefinedType>(request)
+                    val result = request.parseBody<UnrefinedType, RefinedType>()
                     slot.captured = result
                     ServerResponse.ok().buildAndAwait()
                 } catch (throwable: Throwable) {
