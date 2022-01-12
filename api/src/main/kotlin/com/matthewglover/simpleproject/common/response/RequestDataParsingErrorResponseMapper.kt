@@ -1,5 +1,7 @@
 package com.matthewglover.simpleproject.common.response
 
+import com.matthewglover.simpleproject.common.errors.InvalidPathVariableNameError
+import com.matthewglover.simpleproject.common.errors.InvalidPathVariableValue
 import com.matthewglover.simpleproject.common.errors.JsonDecodingError
 import com.matthewglover.simpleproject.common.errors.MissingRequestPayloadError
 import com.matthewglover.simpleproject.common.errors.RequestDataParsingError
@@ -13,7 +15,9 @@ import org.springframework.web.reactive.function.server.ServerResponse
 suspend fun mapRequestDataParsingError(error: RequestDataParsingError): ServerResponse = when (error) {
     is UnsupportedMediaTypeError -> toErrorBody(error).asUnsupportedMedia()
     is ValidationErrors -> toErrorBody(error).asBadRequest()
-    is JsonDecodingError, is MissingRequestPayloadError -> toErrorBody(error).asBadRequest()
+    is JsonDecodingError, MissingRequestPayloadError, is InvalidPathVariableNameError, is InvalidPathVariableValue -> {
+        toErrorBody(error).asBadRequest()
+    }
     is UnexpectedRequestDataParsingError, is UnexpectedRefiningError -> toErrorBody(error).asInternalServerError()
 }
 
