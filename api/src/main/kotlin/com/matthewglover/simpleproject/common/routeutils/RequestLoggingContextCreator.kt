@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import reactor.util.context.Context
+import java.util.UUID
 
 typealias NextHandler = suspend (ServerRequest) -> ServerResponse
 typealias CurrentTimeProvider = () -> Long
@@ -28,6 +29,7 @@ class RequestLoggingContextCreator(val currentTime: CurrentTimeProvider = System
 
     private fun toRequestLoggingContext(request: ServerRequest): RequestLoggingContext =
         RequestLoggingContext(
+            correlationId = UUID.randomUUID().toString(),
             startTime = currentTime(),
             method = request.method(),
             requestPath = request.requestPath()
