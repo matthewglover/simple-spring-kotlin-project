@@ -13,9 +13,9 @@ contract {
     }
     response {
         status = BAD_REQUEST
-        body = body(file("invalid_new_user_response.json"))
         headers {
             contentType = "application/json"
         }
+        body = body(file("invalid_new_user_response.json"))
     }
 }

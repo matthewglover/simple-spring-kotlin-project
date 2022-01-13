@@ -1,4 +1,4 @@
 {
   "errorType": "ValidationErrors",
-  "errors": ["username required"]
+  "errors": ["valid email required", "age must be 18 or over"]
 }

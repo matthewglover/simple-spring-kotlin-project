@@ -15,7 +15,7 @@ class AddUserRouteHandlerTest {
     @Test
     fun `a valid user payload returns a newly created user`() {
         val userRepository = mockk<UserRepository>()
-        val newUser = NewUser("test@test.com")
+        val newUser = NewUser(email = Email("test@test.com"), age = UserAge(18))
         coEvery { userRepository.addUser(newUser) } answers { User("new-user-id") }
 
         val webClient = setupWebClient(userRepository)
@@ -61,7 +61,7 @@ class AddUserRouteHandlerTest {
             .expectBody<ErrorResponse>().isEqualTo(
                 ErrorResponse(
                     errorType = ValidationErrors::class.java.simpleName,
-                    errors = setOf("username required")
+                    errors = setOf("valid email required", "age must be 18 or over")
                 )
             )
     }

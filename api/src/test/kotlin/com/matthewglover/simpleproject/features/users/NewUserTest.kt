@@ -11,18 +11,21 @@ internal class NewUserTest {
 
     @Test
     internal fun `refine returns RefinedNewUser for valid unrefined NewUser`() {
-        val rawNewUser = RawNewUser("blah")
+        val rawNewUser = RawNewUser(email = "matt@home.com", age = 18)
 
         val actual = rawNewUser.refine()
 
         assertTrue(actual.isRight())
 
-        actual.tap { assertEquals(NewUser("blah"), it) }
+        actual.tap { assertEquals(NewUser(email = Email("matt@home.com"), age = UserAge(18)), it) }
     }
 
     @Test
     internal fun `refine returns Left of ValidationError for invalid unrefined NewUser`() {
-        val rawNewUser = RawNewUser(null)
+        val rawNewUser = RawNewUser(
+            email = "invalid email",
+            age = 17
+        )
 
         val actual = rawNewUser.refine()
 

@@ -1,3 +1,4 @@
 {
-  "username": "valid-user-name"
+  "email": "user@domain.com",
+  "age": "22"
 }
