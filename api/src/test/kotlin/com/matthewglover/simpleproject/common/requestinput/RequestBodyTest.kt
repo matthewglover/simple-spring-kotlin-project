@@ -4,9 +4,9 @@ import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.matthewglover.simpleproject.errors.ApplicationError
 import com.matthewglover.simpleproject.errors.JsonDecodingError
 import com.matthewglover.simpleproject.errors.MissingRequestPayloadError
-import com.matthewglover.simpleproject.errors.RequestDataParsingError
 import com.matthewglover.simpleproject.errors.ValidationError
 import com.matthewglover.simpleproject.errors.ValidationErrors
 import com.natpryce.snodge.json.defaultJsonMutagens
@@ -54,7 +54,7 @@ internal class RequestBodyTest {
 
     @Test
     internal fun `parses and refines valid input`() {
-        val slot = slot<Either<RequestDataParsingError, RefinedType>>()
+        val slot = slot<Either<ApplicationError, RefinedType>>()
         val testClient = setupWebClient<RawType, RefinedType>(slot)
 
         testClient
@@ -90,7 +90,7 @@ internal class RequestBodyTest {
         ]
     )
     internal fun `does not throw and returns a Left of JsonDecodingError for invalid json payload`(json: String) {
-        val slot = slot<Either<RequestDataParsingError, RefinedType>>()
+        val slot = slot<Either<ApplicationError, RefinedType>>()
         val testClient = setupWebClient<RawType, RefinedType>(slot)
 
         testClient
@@ -109,7 +109,7 @@ internal class RequestBodyTest {
 
     @Test
     internal fun `does not throw and returns a Left of MissingRequestPayloadError when the payload is missing`() {
-        val slot = slot<Either<RequestDataParsingError, RefinedType>>()
+        val slot = slot<Either<ApplicationError, RefinedType>>()
         val testClient = setupWebClient<RawType, RefinedType>(slot)
 
         testClient
@@ -127,7 +127,7 @@ internal class RequestBodyTest {
 
     @Test
     internal fun `returns a Left of ValidationErrors when there are validation errors`() {
-        val slot = slot<Either<RequestDataParsingError, RefinedType>>()
+        val slot = slot<Either<ApplicationError, RefinedType>>()
         val testClient = setupWebClient<RawType, RefinedType>(slot)
 
         testClient
@@ -148,14 +148,14 @@ internal class RequestBodyTest {
     }
 
     private inline fun <reified UnrefinedType : Refineable<RefinedType>, reified RefinedType : Any> setupWebClient(
-        slot: CapturingSlot<Either<RequestDataParsingError, RefinedType>> = slot()
+        slot: CapturingSlot<Either<ApplicationError, RefinedType>> = slot()
     ) =
         WebTestClient
             .bindToRouterFunction(testRoute<UnrefinedType, RefinedType>(slot))
             .build()
 
     private inline fun <reified UnrefinedType : Refineable<RefinedType>, reified RefinedType : Any> testRoute(
-        slot: CapturingSlot<Either<RequestDataParsingError, RefinedType>>
+        slot: CapturingSlot<Either<ApplicationError, RefinedType>>
     ) = coRouter {
         accept(MediaType.APPLICATION_JSON).nest {
             POST("/test") { request ->

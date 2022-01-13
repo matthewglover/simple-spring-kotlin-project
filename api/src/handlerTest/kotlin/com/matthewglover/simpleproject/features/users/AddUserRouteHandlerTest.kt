@@ -14,9 +14,12 @@ class AddUserRouteHandlerTest {
 
     @Test
     fun `a valid user payload returns a newly created user`() {
+        // NOTE: use of RawUser works around this deserialization bug
+        // https://github.com/FasterXML/jackson-module-kotlin/issues/413
         val userRepository = mockk<UserRepository>()
         val newUser = NewUser(email = Email("test@test.com"), age = UserAge(18))
-        coEvery { userRepository.addUser(newUser) } answers { User("new-user-id") }
+        val user = RawUser(userId = "1", email = "test@test.com", age = 18)
+        coEvery { userRepository.addUser(newUser) } answers { user.unsafeRefine() }
 
         val webClient = setupWebClient(userRepository)
 
@@ -26,7 +29,7 @@ class AddUserRouteHandlerTest {
             .exchange()
             .expectStatus().isOk
             .expectHeader().contentType(MediaType.APPLICATION_JSON)
-            .expectBody<User>().isEqualTo(User("new-user-id"))
+            .expectBody<RawUser>().isEqualTo(user)
     }
 
     @Test
@@ -43,7 +46,7 @@ class AddUserRouteHandlerTest {
             .expectStatus().isBadRequest
             .expectHeader().contentType(MediaType.APPLICATION_JSON)
             .expectBody()
-            .jsonPath(".errorType").isEqualTo("JsonDecodingError")
+            .jsonPath("$.errorType").isEqualTo("JsonDecodingError")
     }
 
     @Test

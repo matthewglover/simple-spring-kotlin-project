@@ -1,8 +1,7 @@
 package com.matthewglover.simpleproject.errors
 
-sealed interface ContextError : ApplicationError {
-    val message: String
-}
+sealed interface ContextError : ApplicationError
+
 object ReactorContextReadError : ContextError {
     override val message: String = "Unexpectedly failed to read Reactor Context"
 }

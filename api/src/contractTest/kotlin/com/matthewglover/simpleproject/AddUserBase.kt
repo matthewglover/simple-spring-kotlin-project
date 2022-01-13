@@ -22,9 +22,8 @@ open class AddUserBase {
 
         private fun loadValidUser(): NewUser {
             val file = ResourceUtils.getFile("classpath:contracts/addUser/valid_new_user_payload.json")
-            val objectMapper = jacksonObjectMapper()
 
-            return objectMapper.readValue<RawNewUser>(file).unsafeRefine()
+            return jacksonObjectMapper().readValue<RawNewUser>(file).unsafeRefine()
         }
     }
 
@@ -41,6 +40,6 @@ open class AddUserBase {
     }
 
     private fun configureGetUserStubs(userRepository: UserRepository) {
-        coEvery { userRepository.addUser(validUser) } returns User(newUserId)
+        coEvery { userRepository.addUser(validUser) } returns User(userId = newUserId, email = validUser.email, age = validUser.age)
     }
 }

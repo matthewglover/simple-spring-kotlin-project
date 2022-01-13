@@ -5,7 +5,7 @@ import arrow.core.Either
 import arrow.core.right
 import com.matthewglover.simpleproject.errors.InvalidPathVariableNameError
 import com.matthewglover.simpleproject.errors.InvalidPathVariableValue
-import com.matthewglover.simpleproject.errors.RequestDataParsingError
+import com.matthewglover.simpleproject.errors.RequestDataError
 import io.mockk.slot
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertInstanceOf
@@ -21,7 +21,7 @@ import org.springframework.web.reactive.function.server.coRouter
 class RequestPathTest {
     @Test
     internal fun `returns a Right of  parsed String for valid path variable name`() {
-        val slot = slot<Either<RequestDataParsingError, String>>()
+        val slot = slot<Either<RequestDataError, String>>()
         val testClient = setupWebClient { request ->
             slot.captured = request.parsePathVariable("valid_name")
         }
@@ -36,7 +36,7 @@ class RequestPathTest {
 
     @Test
     internal fun `returns a Right of  parsed Int for valid path variable name`() {
-        val slot = slot<Either<RequestDataParsingError, Int>>()
+        val slot = slot<Either<RequestDataError, Int>>()
         val testClient = setupWebClient { request ->
             slot.captured = request.parsePathVariable("valid_name") { it.toInt() }
         }
@@ -51,7 +51,7 @@ class RequestPathTest {
 
     @Test
     internal fun `does not throw and returns a Left of InvalidVariableNameError when variable name not in path`() {
-        val slot = slot<Either<RequestDataParsingError, String>>()
+        val slot = slot<Either<RequestDataError, String>>()
         val testClient = setupWebClient { request ->
             slot.captured = request.parsePathVariable("invalid_name")
         }
@@ -71,7 +71,7 @@ class RequestPathTest {
 
     @Test
     internal fun `does not throw and returns a Left of InvalidPathVariableValue when variable cannot be converted to Int`() {
-        val slot = slot<Either<RequestDataParsingError, Int>>()
+        val slot = slot<Either<RequestDataError, Int>>()
         val testClient = setupWebClient { request ->
             slot.captured = request.parsePathVariable("valid_name") { it.toInt() }
         }

@@ -1,3 +1,5 @@
 {
-  "userId": "valid-user-id"
+  "userId": "1",
+  "email": "test@test.com",
+  "age": 18
 }

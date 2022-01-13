@@ -3,7 +3,7 @@ package com.matthewglover.simpleproject.common.response
 import com.matthewglover.simpleproject.errors.JsonDecodingError
 import com.matthewglover.simpleproject.errors.MissingRequestPayloadError
 import com.matthewglover.simpleproject.errors.UnexpectedRefiningError
-import com.matthewglover.simpleproject.errors.UnexpectedRequestDataParsingError
+import com.matthewglover.simpleproject.errors.UnexpectedRequestDataError
 import com.matthewglover.simpleproject.errors.UnsupportedMediaTypeError
 import com.matthewglover.simpleproject.errors.ValidationError
 import com.matthewglover.simpleproject.errors.ValidationErrors
@@ -14,7 +14,7 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.expectBody
 import org.springframework.web.server.UnsupportedMediaTypeStatusException
 
-internal class RequestDataParsingErrorResponseMapperTest {
+internal class RequestDataErrorResponseMapperTest {
     @Test
     internal fun `MissingRequestPayloadError responds with 400 Bad Request`() {
 
@@ -48,14 +48,14 @@ internal class RequestDataParsingErrorResponseMapperTest {
     @Test
     internal fun `UnexpectedRequestDataParsingError responds with 500 Internal Server Error`() {
         val exception = RuntimeException("This exception is unexpected")
-        val error = UnexpectedRequestDataParsingError(exception)
+        val error = UnexpectedRequestDataError(exception)
 
         testError(error)
             .expectStatus().isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR)
             .expectHeader().contentType(MediaType.APPLICATION_JSON)
             .expectBody<ErrorResponse>().isEqualTo(
                 ErrorResponse(
-                    errorType = UnexpectedRequestDataParsingError::class.java.simpleName,
+                    errorType = UnexpectedRequestDataError::class.java.simpleName,
                     errors = setOf("This exception is unexpected")
                 )
             )

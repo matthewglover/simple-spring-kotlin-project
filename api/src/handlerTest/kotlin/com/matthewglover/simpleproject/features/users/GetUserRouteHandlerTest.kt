@@ -16,9 +16,11 @@ class GetUserRouteHandlerTest {
 
     @Test
     fun `a valid userId returns a valid user`() {
+        // NOTE: use of RawUser works around this deserialization bug
+        // https://github.com/FasterXML/jackson-module-kotlin/issues/413
         val userRepository = mockk<UserRepository>()
-        val userIdSlot = slot<String>()
-        coEvery { userRepository.findUserById(capture(userIdSlot)) } answers { User(userIdSlot.captured).right() }
+        val user = RawUser(userId = "1234", email = "test@test.com", age = 18)
+        coEvery { userRepository.findUserById("1234") } answers { user.unsafeRefine().right() }
 
         val webClient = setupWebClient(userRepository)
 
@@ -27,7 +29,7 @@ class GetUserRouteHandlerTest {
             .exchange()
             .expectStatus().isOk
             .expectHeader().contentType(MediaType.APPLICATION_JSON)
-            .expectBody<User>().isEqualTo(User("1234"))
+            .expectBody<RawUser>().isEqualTo(user)
     }
 
     @Test

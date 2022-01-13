@@ -74,6 +74,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-log4j2")
+    implementation("org.springframework.data:spring-data-r2dbc")
 
     // Kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -82,6 +83,9 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable")
+
+    // Database
+    implementation("io.r2dbc:r2dbc-postgresql")
 
     // Utility libraries
     implementation("io.arrow-kt:arrow-core")

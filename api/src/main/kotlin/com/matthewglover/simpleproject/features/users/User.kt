@@ -17,12 +17,23 @@ private const val MINIMUM_AGE: Int = 18
 
 private val EmailPattern: Pattern = Pattern.compile(EMAIL_REG_EX)
 
-data class User(val userId: String)
+data class User(val userId: String, val email: Email, val age: UserAge)
 
-data class NewUser(
-    val email: Email,
-    val age: UserAge
-)
+data class RawUser(
+    val userId: String?,
+    val email: String?,
+    val age: Int?
+) : Refineable<User> {
+    override fun unsafeRefine(): User {
+        return User(
+            userId = userId!!,
+            email = Email(email!!),
+            age = UserAge(age!!)
+        )
+    }
+}
+
+data class NewUser(val email: Email, val age: UserAge)
 
 data class RawNewUser(
     @get: NotBlank(message = "valid email required")

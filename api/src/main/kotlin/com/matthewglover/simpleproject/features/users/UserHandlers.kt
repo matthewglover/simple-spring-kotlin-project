@@ -5,7 +5,6 @@ import com.matthewglover.simpleproject.common.requestinput.parseBody
 import com.matthewglover.simpleproject.common.requestinput.parsePathVariable
 import com.matthewglover.simpleproject.common.response.asOk
 import com.matthewglover.simpleproject.errors.ApplicationError
-import com.matthewglover.simpleproject.errors.RequestDataParsingError
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
@@ -19,7 +18,7 @@ class UserHandlers(private val userRepository: UserRepository) {
         userRepository.findUserById(userId).bind()
     }.asOk()
 
-    suspend fun handleAddUser(request: ServerRequest): ServerResponse = either<RequestDataParsingError, User> {
+    suspend fun handleAddUser(request: ServerRequest): ServerResponse = either<ApplicationError, User> {
         val newUser = request.parseBody<RawNewUser, NewUser>().bind()
 
         userRepository.addUser(newUser)

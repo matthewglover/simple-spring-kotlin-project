@@ -6,3 +6,12 @@ management:
   health:
     probes:
       enabled: true
+
+spring:
+  sql:
+    init:
+      mode: never
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/devdb
+    username: devdb
+    password: devpassword

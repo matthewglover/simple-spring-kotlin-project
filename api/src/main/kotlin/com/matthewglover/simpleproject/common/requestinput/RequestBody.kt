@@ -4,10 +4,12 @@ import arrow.core.Either
 import arrow.core.computations.either
 import arrow.core.left
 import arrow.core.right
+import com.matthewglover.simpleproject.errors.ApplicationError
+import com.matthewglover.simpleproject.errors.ExternalDataParsingError
 import com.matthewglover.simpleproject.errors.JsonDecodingError
 import com.matthewglover.simpleproject.errors.MissingRequestPayloadError
-import com.matthewglover.simpleproject.errors.RequestDataParsingError
-import com.matthewglover.simpleproject.errors.UnexpectedRequestDataParsingError
+import com.matthewglover.simpleproject.errors.UnexpectedDataParsingError
+import com.matthewglover.simpleproject.errors.UnexpectedRequestDataError
 import com.matthewglover.simpleproject.errors.UnsupportedMediaTypeError
 import com.matthewglover.simpleproject.errors.ValidationError
 import com.matthewglover.simpleproject.errors.ValidationErrors
@@ -23,7 +25,7 @@ import javax.validation.Validator
 private val validator: Validator = Validation.buildDefaultValidatorFactory().validator
 
 suspend inline fun <reified RawType : Refineable<RefinedType>, reified RefinedType> ServerRequest.parseBody() =
-    either<RequestDataParsingError, RefinedType> {
+    either<ApplicationError, RefinedType> {
         val rawValue = deserializeBody<RawType>(this@parseBody).bind()
 
         val validated = validate(rawValue).bind()
@@ -33,21 +35,21 @@ suspend inline fun <reified RawType : Refineable<RefinedType>, reified RefinedTy
 
 suspend inline fun <reified RawType : Any> deserializeBody(
     request: ServerRequest
-): Either<RequestDataParsingError, RawType> =
+): Either<ApplicationError, RawType> =
     Either.catch { request.awaitBody<RawType>() }
         .mapLeft(::handleThrowable)
 
-fun handleThrowable(throwable: Throwable): RequestDataParsingError = when (throwable) {
+fun handleThrowable(throwable: Throwable): ApplicationError = when (throwable) {
     is ServerWebInputException -> jsonDecodingException(throwable)
     is NoSuchElementException -> MissingRequestPayloadError
     is UnsupportedMediaTypeStatusException -> UnsupportedMediaTypeError(throwable)
-    else -> UnexpectedRequestDataParsingError(throwable)
+    else -> UnexpectedRequestDataError(throwable)
 }
 
-private fun jsonDecodingException(exception: ServerWebInputException): RequestDataParsingError =
+private fun jsonDecodingException(exception: ServerWebInputException): ExternalDataParsingError =
     when (val cause = exception.cause) {
         is DecodingException -> JsonDecodingError(cause)
-        else -> UnexpectedRequestDataParsingError(exception)
+        else -> UnexpectedDataParsingError(exception)
     }
 
 fun <T> validate(t: T): Either<ValidationErrors, T> {
