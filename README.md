@@ -73,3 +73,13 @@ See [here](docs/Containerising.md) for a full example of building and pushing an
 ## Running in Kubernetes
 
 See [here](docs/Local_Kubernetes.md) for how to set up and run local Kubernetes cluster.
+
+## Setup database
+
+Go to directory `<project_root>utils/database`
+
+To setup a local development database: `docker-compose up -d`
+
+To view database logs: `docker-compose logs -f`
+
+To run migrations: `./gradlew :databaseConfig:dev`

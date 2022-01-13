@@ -1,0 +1,12 @@
+version: '3'
+services:
+  dev-db:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgres-data/dev:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: devdb
+      POSTGRES_PASSWORD: devpassword

@@ -1,6 +1,7 @@
 rootProject.name = "simple-project"
 
 include("api")
+include("database")
 
 pluginManagement {
     repositories {
@@ -19,6 +20,7 @@ pluginManagement {
         val dependencyVersionsVersion: String by settings
         val dependencyCheckVersion: String by settings
         val springCloudContractVersion: String by settings
+        val liquibaseGradlePluginVersion: String by settings
 
         // Spring
         id("org.springframework.boot") version springBootVersion
@@ -35,5 +37,8 @@ pluginManagement {
         // Dependency versions
         id("com.github.ben-manes.versions") version dependencyVersionsVersion
         id("org.owasp.dependencycheck") version dependencyCheckVersion
+
+        // Liquibase
+        id("org.liquibase.gradle") version liquibaseGradlePluginVersion
     }
 }
