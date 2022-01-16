@@ -1,5 +1,6 @@
 plugins {
     id("org.liquibase.gradle")
+    kotlin("jvm")
 }
 
 repositories {
@@ -27,7 +28,7 @@ liquibase {
         this.arguments = mapOf(
             "logLevel" to "info",
             "classpath" to "$projectDir",
-            "changeLogFile" to "liquibase/liquibase-changelog.yaml",
+            "changeLogFile" to "src/main/resources/liquibase/liquibase-changelog.yaml",
             "url" to "jdbc:postgresql://localhost:5432/devdb",
             "username" to "devdb",
             "password" to "devpassword"

@@ -43,13 +43,27 @@ sourceSets {
         compileClasspath += sourceSets.main.get().output
         runtimeClasspath += sourceSets.main.get().output
     }
+
+    create("integrationTest") {
+        compileClasspath += sourceSets.main.get().output
+        runtimeClasspath += sourceSets.main.get().output
+    }
 }
 
 val handlerTestImplementation by configurations.getting {
     extendsFrom(configurations.testImplementation.get())
 }
 
+val integrationTestImplementation by configurations.getting {
+    extendsFrom(configurations.testImplementation.get())
+}
+
+val integrationTestRuntimeOnly by configurations.getting {
+    extendsFrom(configurations.testRuntimeOnly.get())
+}
+
 configurations["handlerTestImplementation"].extendsFrom(configurations.runtimeOnly.get())
+configurations["integrationTestImplementation"].extendsFrom(configurations.runtimeOnly.get())
 
 val handlerTest = task<Test>("handlerTest") {
     description = "Runs handler tests."
@@ -60,7 +74,17 @@ val handlerTest = task<Test>("handlerTest") {
     shouldRunAfter("test")
 }
 
+val integrationTest = task<Test>("integrationTest") {
+    description = "Runs integration tests."
+    group = "verification"
+
+    testClassesDirs = sourceSets["integrationTest"].output.classesDirs
+    classpath = sourceSets["integrationTest"].runtimeClasspath
+    shouldRunAfter("test")
+}
+
 tasks.check { dependsOn(handlerTest) }
+tasks.check { dependsOn(integrationTest) }
 
 val detektVersion: String by project
 
@@ -108,6 +132,17 @@ dependencies {
     testImplementation("org.springframework.cloud:spring-cloud-contract-spec-kotlin")
     testImplementation(kotlin("script-runtime"))
     testImplementation("io.rest-assured:spring-web-test-client")
+
+    // Test containers config
+    integrationTestImplementation("org.testcontainers:junit-jupiter")
+    integrationTestImplementation("org.testcontainers:r2dbc")
+    integrationTestImplementation("org.testcontainers:postgresql")
+
+    // Liquibase config
+    integrationTestImplementation("org.liquibase:liquibase-core")
+    integrationTestImplementation("org.springframework:spring-jdbc")
+    integrationTestRuntimeOnly("org.postgresql:postgresql")
+    integrationTestRuntimeOnly(project(":database"))
 
     // Plugin configuration
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
@@ -187,7 +222,8 @@ tasks {
                     } else {
                         println("Results: (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)")
                     }
-                } else { /* Nothing to do here */ }
+                } else { /* Nothing to do here */
+                }
             })
         )
     }

@@ -25,15 +25,17 @@ javaPlatform {
 
 dependencies {
 
-    val springBootVersion: String by project
-    val springDocOpenApiVersion: String by project
     val arrowVersion: String by project
-    val mockkVersion: String by project
-    val snodgeVersion: String by project
     val glassfishVersion: String by project
     val kotlinImmutableCollectionVersion: String by project
-    val springCloudDependenciesVersion: String by project
+    val liquibaseCoreVersion: String by project
+    val mockkVersion: String by project
     val restAssuredVersion: String by project
+    val springBootVersion: String by project
+    val springDocOpenApiVersion: String by project
+    val snodgeVersion: String by project
+    val springCloudDependenciesVersion: String by project
+    val testContainersVersion: String by project
 
     constraints {
         // Kotlin
@@ -48,12 +50,16 @@ dependencies {
         api("com.natpryce:snodge:$snodgeVersion")
         api("org.glassfish:javax.json:$glassfishVersion")
         api("io.rest-assured:spring-web-test-client:$restAssuredVersion")
+
+        //Integration Tests
+        api("org.liquibase:liquibase-core:$liquibaseCoreVersion")
     }
 
     // BOM config
     api(enforcedPlatform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     api(enforcedPlatform("org.springframework.cloud:spring-cloud-dependencies:$springCloudDependenciesVersion"))
     api(platform("io.arrow-kt:arrow-stack:$arrowVersion"))
+    api(platform("org.testcontainers:testcontainers-bom:$testContainersVersion"))
 }
 
 // Dependency versions config

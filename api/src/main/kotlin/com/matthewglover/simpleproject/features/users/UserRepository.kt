@@ -2,7 +2,7 @@ package com.matthewglover.simpleproject.features.users
 
 import arrow.core.computations.either
 import com.matthewglover.simpleproject.common.database.awaitFirstRow
-import com.matthewglover.simpleproject.common.database.parseValue
+import com.matthewglover.simpleproject.common.database.retrieve
 import com.matthewglover.simpleproject.errors.ApplicationError
 import kotlinx.coroutines.reactive.awaitFirst
 import org.springframework.r2dbc.core.DatabaseClient
@@ -18,8 +18,8 @@ class UserRepository(private val databaseClient: DatabaseClient) {
             .awaitFirstRow()
             .bind()
 
-        val email = row.parseValue<String>("email").bind()
-        val age = row.parseValue<Int>("age").bind()
+        val age = row.retrieve<Int>("age").bind()
+        val email = row.retrieve<String>("email").bind()
 
         RawUser(userId = userId, email = email, age = age).refine().bind()
     }
